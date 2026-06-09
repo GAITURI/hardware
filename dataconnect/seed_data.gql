@@ -1,0 +1,39 @@
+mutation CreateSeedData @transaction {
+  user_insertMany(data: [
+    {
+      id: "550e8400-e29b-41d4-a716-446655440000",
+      displayName: "Alice",
+      email: "alice@example.com"
+    },
+    {
+      id: "550e8400-e29b-41d4-a716-446655440001",
+      displayName: "Bob",
+      email: "bob@example.com"
+    }
+  ])
+  project_insertMany(data: [
+    {
+      id: "770e8400-e29b-41d4-a716-446655440000",
+      name: "Q4 Roadmap",
+      owner: { id: "550e8400-e29b-41d4-a716-446655440000" }
+    }
+  ])
+  sprint_insertMany(data: [
+    {
+      id: "880e8400-e29b-41d4-a716-446655440000",
+      name: "Sprint 1",
+      startDate: "2023-10-01",
+      endDate: "2023-10-14",
+      project: { id: "770e8400-e29b-41d4-a716-446655440000" }
+    }
+  ])
+  task_insertMany(data: [
+    {
+      id: "990e8400-e29b-41d4-a716-446655440000",
+      title: "Fix Login Bug",
+      status: "TODO",
+      creator: { id: "550e8400-e29b-41d4-a716-446655440000" },
+      project: { id: "770e8400-e29b-41d4-a716-446655440000" }
+    }
+  ])
+}

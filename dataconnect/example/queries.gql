@@ -1,0 +1,34 @@
+mutation CreateTask($title: String!, $status: String!, $projectId: UUID!, $creatorId: UUID!) @auth(level: USER) {
+  task_insert(data: {
+    title: $title,
+    status: $status,
+    projectId: $projectId,
+    creatorId: $creatorId
+  })
+}
+
+query GetProjectTasks($projectId: UUID!) @auth(level: USER) {
+  tasks(where: {projectId: {eq: $projectId}}) {
+    id
+    title
+    status
+    creator {
+      displayName
+    }
+  }
+}
+
+mutation AssignTask($taskId: UUID!, $assigneeId: UUID!) @auth(level: USER) {
+  task_update(key: {id: $taskId}, data: {assigneeId: $assigneeId})
+}
+
+query ListAllSprints @auth(level: USER) {
+  sprints(orderBy: [{startDate: ASC}]) {
+    name
+    startDate
+    endDate
+    project {
+      name
+    }
+  }
+}
