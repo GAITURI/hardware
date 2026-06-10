@@ -82,19 +82,21 @@ const slides = [
     title: 'Interior\nProducts',
     sub: 'Sale Sale',
     btn: 'Shop now',
-    img: 'images/bowl1.jpg'
+    img: 'images/elec1.jpg'
   },
   {
     tag: 'Latest Arrival',
     title: 'Shower\nComponents',
     sub: 'Sale Sale',
     btn: 'View More',
+    img: 'images/bowl1.jpg'
   },
   {
     tag: 'Premium Electrical',
     title: 'Electrical\nProducts',
     sub: 'Sale Sale',
     btn: 'View More',
+    img: 'elec2.jpg'
   },
   {
     tag: 'Tools & Accessories',
@@ -144,10 +146,28 @@ heroContent.style.transition = 'opacity 0.3s';
 dots.forEach(d =>
   d.addEventListener('click', () => goToSlide(+d.dataset.slide))
 );
+const heroImg= document.getElementById('heroImage');
+
+heroImg.addEventListener('mouseenter',()=>{
+  const nextSlide = (currentSlide +1)% slides.length;
+  goToSlide(nextSlide)
+})
+
 
 // Auto-advance every 4.5 s
 setInterval(() => goToSlide((currentSlide + 1) % slides.length), 4500);
 
+let slideInterval= setInterval(()=> goToSlide((currentSlide +1)%slides.length),4500);
+
+heroImg.addEventListener('mouseenter',()=>{
+  clearInterval(slideInterval);
+  const nextSlide = (currentSlide +1)% slides.length;
+  goToSlide(nextSlide)
+});
+//resume auto play when the mouse leaves
+heroImg.addEventListener('mouseleave',()=> {
+  slideInterval= setInterval(()=>goToSlide((currentSlide +1) %slides.length),4500);
+})
 /* ════════════════════════════════════════
    SCROLL TO TOP BUTTON
 ════════════════════════════════════════ */
