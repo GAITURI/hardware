@@ -82,6 +82,7 @@ const slides = [
     title: 'Interior\nProducts',
     sub: 'Sale Sale',
     btn: 'Shop now',
+    img: 'images/bowl1.jpg'
   },
   {
     tag: 'Latest Arrival',
@@ -100,6 +101,7 @@ const slides = [
     title: 'POWER\nTools',
     sub: 'Sale Sale',
     btn: 'Shop Now',
+    img:'images/power.jpg'
   },
 ];
 
@@ -117,7 +119,7 @@ function goToSlide(i) {
 
   // Fade out
   heroContent.style.opacity = '0';
-
+  heroImg.style.opacity = '0';
   setTimeout(() => {
     heroContent.innerHTML = `
       <div class="hero-tag">${s.tag}</div>
@@ -126,7 +128,9 @@ function goToSlide(i) {
       <a href="#" class="btn-hero">
         ${s.btn} &nbsp;<i class="fas fa-arrow-right fa-xs"></i>
       </a>`;
+      heroImg.src= s.img;
     heroContent.style.opacity = '1';
+    heroImg.style.opacity='1';
   }, 300);
 
   // Sync dots
