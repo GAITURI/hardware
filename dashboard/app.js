@@ -7,131 +7,7 @@
 /* ════════════════════════════════════════
    PRODUCT DATA
 ════════════════════════════════════════ */
-const products = [
-  {
-    id: 1,
-    name: 'Cypress Timber Board 2x4 (12ft)',
-    price: 'KES 1,850',
-    oldPrice: 'KES 2,100',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-tree',
-    color: '#8b5a2b',
-  },
-  {
-    id: 2,
-    name: 'Ordinary Portland Cement 50kg',
-    price: 'KES 850',
-    oldPrice: 'KES 950',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-industry',
-    color: '#6c757d',
-  },
-  {
-    id: 3,
-    name: 'Corrugated Iron Sheet 3m',
-    price: 'KES 1,450',
-    oldPrice: 'KES 1,650',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-house',
-    color: '#a9a9a9',
-  },
-  {
-    id: 4,
-    name: 'Stanley Claw Hammer 16oz',
-    price: 'KES 1,200',
-    oldPrice: 'KES 1,500',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-hammer',
-    color: '#f4b400',
-  },
-  {
-    id: 5,
-    name: 'Makita Electric Drill 650W',
-    price: 'KES 7,800',
-    oldPrice: 'KES 9,000',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-screwdriver-wrench',
-    color: '#0066cc',
-  },
-  {
-    id: 6,
-    name: 'Steel Reinforcement Bars Y12 (12m)',
-    price: 'KES 1,650',
-    oldPrice: 'KES 1,850',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-grip-lines',
-    color: '#495057',
-  },
-  {
-    id: 7,
-    name: 'Wheelbarrow Heavy Duty',
-    price: 'KES 5,500',
-    oldPrice: 'KES 6,200',
-    rating: 4,
-    onSale: false,
-    icon: 'fa-cart-flatbed',
-    color: '#d97706',
-  },
-  {
-    id: 8,
-    name: 'PVC Water Pipe 32mm (6m)',
-    price: 'KES 1,100',
-    oldPrice: 'KES 1,350',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-faucet',
-    color: '#2563eb',
-  },
-];
 
-const hotDeals = [
-  {
-    id: 9,
-    name: 'Bosch Angle Grinder 230mm',
-    price: 'KES 8,500',
-    oldPrice: 'KES 10,000',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-gear',
-    color: '#1f2937',
-  },
-  {
-    id: 10,
-    name: 'Ceramic Floor Tiles 60x60cm (Box)',
-    price: 'KES 2,800',
-    oldPrice: 'KES 3,300',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-border-all',
-    color: '#d6d3d1',
-  },
-  {
-    id: 11,
-    name: 'Paint Roller Set Professional',
-    price: 'KES 950',
-    oldPrice: 'KES 1,250',
-    rating: 4,
-    onSale: true,
-    icon: 'fa-paint-roller',
-    color: '#dc2626',
-  },
-  {
-    id: 12,
-    name: 'Assorted Nails Pack 5kg',
-    price: 'KES 750',
-    oldPrice: 'KES 950',
-    rating: 5,
-    onSale: true,
-    icon: 'fa-thumbtack',
-    color: '#525252',
-  },
-];
 /* ════════════════════════════════════════
    HELPERS
 ════════════════════════════════════════ */
@@ -152,43 +28,36 @@ function renderStars(n) {
  * @param {object} p - product object
  * @returns {string} HTML string for one grid column + card
  */
+
 function buildCard(p) {
+  // Use a fallback color if none exists in database
+  const color = p.color || '#e2e8f0'; 
+  
   return `
     <div class="col">
       <div class="product-card">
         ${p.onSale ? '<span class="badge-sale">On Sale</span>' : ''}
-        <div class="product-img-wrap"
-             style="background:linear-gradient(135deg,${p.color}18,${p.color}08);">
-          <div style="
-            width:120px; height:120px;
-            background:linear-gradient(135deg,${p.color}25,${p.color}10);
-            border-radius:16px;
-            display:flex; align-items:center; justify-content:center;">
-            <i class="fas ${p.icon}"
-               style="font-size:48px; color:${p.color}; opacity:0.6;"></i>
-          </div>
+        <div class="product-img-wrap" style="background:linear-gradient(135deg, ${color}18, ${color}08);">
+            <img src="${p.image_url}" alt="${p.name}" style="width:100%; border-radius:16px;">
         </div>
         <div class="product-body">
-          <div class="star-row">${renderStars(p.rating)}</div>
+          <div class="star-row">${renderStars(p.rating || 5)}</div>
           <div class="product-name">${p.name}</div>
           <div class="price-row">
-            <span class="price-now">${p.price}</span>
-            <span class="price-old">${p.oldPrice}</span>
+            <span class="price-now">KES ${p.price}</span>
+            <span class="price-old">${p.oldPrice ? 'KES ' + p.oldPrice : ''}</span>
           </div>
-          <button class="btn-hero mt-3 w-100 add-to-cart-btn"
-                  style="border-radius:8px; font-size:11px; padding:10px;">
+          <button class="btn-hero mt-3 w-100 add-to-cart-btn" style="border-radius:8px; font-size:11px; padding:10px;">
             Add to Cart &nbsp;<i class="fas fa-cart-plus fa-xs"></i>
           </button>
         </div>
       </div>
     </div>`;
 }
-
 /* ════════════════════════════════════════
    RENDER PRODUCT GRIDS
 ════════════════════════════════════════ */
-document.getElementById('productsGrid').innerHTML  = products.map(buildCard).join('');
-document.getElementById('hotdealsGrid').innerHTML  = hotDeals.map(buildCard).join('');
+
 
 /* ════════════════════════════════════════
    PRODUCT TAB SWITCHING
@@ -359,3 +228,31 @@ document.addEventListener('click', e => {
     btn.style.background = '';
   }, 1200);
 });
+/* ════════════════════════════════════════
+   CLEAN INITIALIZATION
+════════════════════════════════════════ */
+
+// This function replaces the old, broken 'products.map' lines
+async function initDashboard() {
+  try {
+    const response = await fetch('get_products.php');
+    if (!response.ok) throw new Error("Network response was not ok");
+    const data = await response.json();
+
+    // Filter categories (Ensure DB column 'category' uses 'latest' or 'hotdeal')
+    const latest = data.filter(p => p.category === 'latest');
+    const hotDeals = data.filter(p => p.category === 'hotdeal');
+
+    const productsGrid = document.getElementById('productsGrid');
+    const hotdealsGrid = document.getElementById('hotdealsGrid');
+
+    if (productsGrid) productsGrid.innerHTML = latest.map(buildCard).join('');
+    if (hotdealsGrid) hotdealsGrid.innerHTML = hotDeals.map(buildCard).join('');
+    
+  } catch (err) {
+    console.error("Error loading products:", err);
+  }
+}
+
+// Run only ONCE when the page finishes loading
+document.addEventListener('DOMContentLoaded', initDashboard);
