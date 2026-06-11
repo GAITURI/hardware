@@ -24,13 +24,17 @@ function renderStars(n) {
  * Do NOT remove them.
  */
 function buildCard(p) {
+  console.log("Mambo Hardware Product Data Object:", p);
   const color = p.color || '#1e293b';
 
   // Escape for HTML attributes
   const safeName = String(p.name        || '').replace(/"/g, '&quot;');
   const safeDesc = String(p.description || '').replace(/"/g, '&quot;');
   const safeImg  = String(p.image_url || '').replace(/"/g, '&quot;'); 
-  const imgPath = `../${p.image_url}`;
+  const imgPath = 'images/' + p.image_url.replace('images/', '');
+  const resolvedId = p.id;
+  // Encode the product id safely to pass through an URL parameter query
+  const productUrl = `../cart/product.php?id=${resolvedId}`;
   return `
     <div class="col">
       <div class="product-card"
@@ -41,25 +45,31 @@ function buildCard(p) {
            data-description="${safeDesc}">
 
         ${p.onSale ? '<span class="badge-sale">On Sale</span>' : ''}
-
+        <a href="${productUrl}"class="text-decoration-none d-block">
         <div class="product-img-wrap"
              style="background:linear-gradient(135deg,${color}18,${color}08);">
           <img src="${imgPath}" alt="${safeName}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">          
         </div>
-
+        </a>
         <div class="product-body">
           <div class="star-row">${renderStars(p.rating || 5)}</div>
-          <div class="product-name">${p.name}</div>
+          <div class="product-name">
+          <a href="${productUrl}" class="text-decoration-none text-dark hover:text-danger font-weight-bold">
+              ${p.name}
+            </a>
+          </div>
+
           <div class="price-row">
             <span class="price-now">KES ${Number(p.price).toLocaleString('en-KE')}</span>
             ${p.oldPrice
               ? `<span class="price-old">KES ${Number(p.oldPrice).toLocaleString('en-KE')}</span>`
               : ''}
           </div>
-          <button class="btn-hero mt-3 w-100 add-to-cart-btn"
-                  style="border-radius:8px;font-size:11px;padding:10px;">
+          
+          <a href="${productUrl}" class="btn-hero mt-3 w-100 d-block text-center text-decoration-none"
+             style="border-radius:8px;font-size:11px;padding:10px;background-color:#ef4444;color:#ffffff;font-weight:700;">
             Add to Cart &nbsp;<i class="fas fa-cart-plus fa-xs"></i>
-          </button>
+          </a>
         </div>
       </div>
     </div>`;
