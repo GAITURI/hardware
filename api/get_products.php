@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 header("Content-Type: application/json; charset=UTF-8");
 
 $conn = new mysqli("localhost", "root", "", "hardware_db",);

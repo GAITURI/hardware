@@ -1,36 +1,38 @@
+<?php
+/**
+ * dashboard/index.php
+ * Main storefront. Session started here so the cart API
+ * and the drawer all share the same session.
+ */
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mambo Hardware - The Best Hardware shop in Ruiru</title>
+  <title>Mambo Hardware - The Best Hardware Shop in Ruiru</title>
 
-  <!-- ── EXTERNAL CSS FRAMEWORKS ── -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-  <!-- ── TAILWIND CSS ── -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            crimson:  '#d32f2f',
-            charcoal: '#1e293b',
-            slate:    '#64748b',
-          }
-        }
-      },
+      theme: { extend: { colors: { crimson:'#d32f2f', charcoal:'#1e293b', slate:'#64748b' } } },
       corePlugins: { preflight: false }
     }
   </script>
 
-  <!-- ── CUSTOM STYLESHEET ── -->
   <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
+
+<?php
+// Pass current cart count to the page so the badge shows immediately
+$cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
+?>
 
 <!-- ════════════════════════════════════════
      TOP UTILITY BAR
@@ -39,32 +41,29 @@
   <div class="container">
     <div class="row align-items-center">
 
-      <!-- Phone -->
       <div class="col-md-4 top-bar-item">
         <div class="top-bar-icon"><i class="fas fa-phone-alt"></i></div>
         <div>
           <div class="top-bar-label">Call Us Now</div>
-          <div class="top-bar-value">+25498275251</div>
+          <div class="top-bar-value">+254798275251</div>
         </div>
       </div>
 
-      <!-- Email -->
       <div class="col-md-4 top-bar-item">
         <div class="top-bar-icon"><i class="fas fa-envelope"></i></div>
         <div>
           <div class="top-bar-label">Email Us</div>
-          <div class="top-bar-value">info@hardware.co.ke</div>
+          <div class="top-bar-value">info@mambohardware.co.ke</div>
         </div>
       </div>
 
-      <!-- Location + Socials -->
       <div class="col-md-4 d-flex align-items-center justify-content-between ps-4">
         <div class="top-bar-item" style="border-right:none">
           <div class="top-bar-icon"><i class="fas fa-map-marker-alt"></i></div>
           <div>
             <div class="top-bar-label">Find Us</div>
             <div class="top-bar-value" style="font-size:12px;line-height:1.35">
-              Ruiru Bypass<br> Kamakis  Kiambu, Kenya
+              Ruiru Bypass<br>Kamakis, Kiambu, Kenya
             </div>
           </div>
         </div>
@@ -82,15 +81,14 @@
 
 
 <!-- ════════════════════════════════════════
-     MAIN NAVBAR  (sticky)
+     MAIN NAVBAR
 ════════════════════════════════════════ -->
 <nav class="navbar navbar-expand-lg main-nav sticky-top" id="mainNav">
   <div class="container">
 
-    <!-- Brand -->
-    <a class="navbar-brand" href="#hero">
+    <a class="navbar-brand" href="#">
       <div class="brand-wrap">
-        <div class="brand-icon"><i class="fas fa-ring"></i></div>
+        <div class="brand-icon"><i class="fas fa-hammer"></i></div>
         <div>
           <div class="brand-text-top">Mambo</div>
           <div class="brand-text-bot">Hardware</div>
@@ -98,54 +96,39 @@
       </div>
     </a>
 
-    <!-- Mobile toggler -->
-    <button class="navbar-toggler border-0"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navMenu"
-            aria-controls="navMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation">
+    <button class="navbar-toggler border-0" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Nav links -->
     <div class="collapse navbar-collapse justify-content-center" id="navMenu">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#about">About</a>
-        </li>
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
           <ul class="dropdown-menu border-0 shadow"
               style="border-radius:10px;min-width:200px;padding:8px;">
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Smartphones</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Accessories</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Power Banks</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Smart Watches</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Phone Cases</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Building Materials</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Sanitary Ware</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Electrical</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tools</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tiles & Flooring</a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Contact</a>
-        </li>
+        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
       </ul>
     </div>
 
-    <!-- Right utility buttons -->
     <div class="nav-utilities">
       <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
         <i class="fas fa-search"></i>
       </button>
-      <a href="#" class="nav-icon-btn" aria-label="Cart">
+      <!-- Cart button — clicked to open drawer (handled by cart-drawer.js) -->
+      <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
         <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge">0</span>
+        <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
       </a>
       <a href="#" class="btn-admin">
         <i class="fas fa-user-shield"></i> Admin
@@ -157,23 +140,23 @@
 
 
 <!-- ════════════════════════════════════════
-     TICKER / MARQUEE BAR
+     TICKER BAR
 ════════════════════════════════════════ -->
 <div class="ticker-bar">
   <div class="ticker-inner" id="ticker">
     <span class="ticker-item"><span class="ticker-dot"></span>Premium Wood Products</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Sanitary Products</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Kitchen &amp; Accesories</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Kitchen &amp; Accessories</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Hardware Supplies</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Tiles</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>More</span>
-    <!-- Duplicated for seamless loop -->
+    <span class="ticker-item"><span class="ticker-dot"></span>Tiles &amp; Flooring</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Free Delivery on Orders Over KES 5,000</span>
+    <!-- duplicate for seamless loop -->
     <span class="ticker-item"><span class="ticker-dot"></span>Premium Wood Products</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Sanitary Products</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Kitchen &amp; Accesories</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Kitchen &amp; Accessories</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Hardware Supplies</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Tiles</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>More</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Tiles &amp; Flooring</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Free Delivery on Orders Over KES 5,000</span>
   </div>
 </div>
 
@@ -185,72 +168,49 @@
   <div class="container">
     <div class="row g-3">
 
-      <!-- Main hero carousel panel -->
       <div class="col-lg-8">
-        <div class="hero-main" style="background: #0f172a;">
-          <img src="images/bowl1.jpg" id="heroImage" class="hero-img active" 
-                 style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; transition: opacity 0.5s ease;">
-          <!-- Background visual (Slide 1 default) -->
-          
-          <div class="hero-overlay" style="position:absolute;inset: 0;background: linear-gradient(90deg, rgba(15,23,42,0.9) 0%,rgba(15,23,42,0.4) 60%, transparent 100%);"></div>
-
-          <!-- Text content — updated by JS carousel -->
+        <div class="hero-main" style="background:#0f172a;">
+          <img src="images/bowl1.jpg" id="heroImage" class="hero-img active"
+               style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity 0.5s ease;">
+          <div class="hero-overlay"
+               style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,23,42,0.9) 0%,rgba(15,23,42,0.4) 60%,transparent 100%);"></div>
           <div class="hero-content" id="heroContent">
-            <div class="hero-tag">QUALITY Hardware Materials </div>
-            <div class="hero-title"><br>Steel &<br>Wood</div>
+            <div class="hero-tag">Quality Hardware Materials</div>
+            <div class="hero-title">Steel &amp;<br>Wood</div>
             <div class="hero-sub"></div>
-            <a href="#" class="btn-hero">Shop Now &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
+            <a href="#shop" class="btn-hero">Shop Now &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
           </div>
-
-          <!-- Dot navigation -->
           <div class="hero-dots">
             <div class="hero-dot active" data-slide="0"></div>
             <div class="hero-dot"        data-slide="1"></div>
             <div class="hero-dot"        data-slide="2"></div>
             <div class="hero-dot"        data-slide="3"></div>
           </div>
-
         </div>
       </div>
 
-      <!-- Right Side accent cards -->
       <div class="col-lg-4">
         <div class="hero-side h-100">
-
-          <!-- Card 1 — Premium Boards -->
           <div class="side-card">
-            <div style="width:100%;height:100%;
-                        background:linear-gradient(135deg,#1a2a4e,#2d4a8e);
-                        position:absolute;inset:0;
-                        display:flex;align-items:center;justify-content:center;">
-              <div style="text-align:center;opacity:0.5;">
-                <i class="fab fa-apple" style="font-size:72px;color:#fff;"></i>
-              </div>
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a2a4e,#2d4a8e);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-layer-group" style="font-size:72px;color:rgba(255,255,255,0.2);"></i>
             </div>
             <div class="side-card-overlay"></div>
             <div class="side-card-content">
-              <div class="side-card-title">Premium Boards </div>
+              <div class="side-card-title">Premium Boards</div>
               <div class="side-card-sub">Verified premium quality</div>
             </div>
           </div>
-
-          <!-- Card 2 — Cement -->
           <div class="side-card">
-            <div style="width:100%;height:100%;
-                        background:linear-gradient(135deg,#2d1b4e,#4e2d7a);
-                        position:absolute;inset:0;
-                        display:flex;align-items:center;justify-content:center;">
-              <div style="text-align:center;opacity:0.4;">
-                <i class="fas fa-mobile-alt" style="font-size:60px;color:#fff;"></i>
-              </div>
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#2d1b4e,#4e2d7a);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-industry" style="font-size:60px;color:rgba(255,255,255,0.2);"></i>
             </div>
             <div class="side-card-overlay"></div>
             <div class="side-card-content">
               <div class="side-card-title">Building Cement</div>
-              <div class="side-card-sub">From KSH 3,500</div>
+              <div class="side-card-sub">From KES 3,500</div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -259,51 +219,38 @@
 
 
 <!-- ════════════════════════════════════════
-     CATEGORIES SECTION
+     CATEGORIES
 ════════════════════════════════════════ -->
 <section class="categories-section">
   <div class="container">
     <div class="row g-3">
-
-      <!--Building Products -->
       <div class="col-md-4">
         <div class="cat-card">
-          <div style="width:100%;height:100%;
-                      background:linear-gradient(135deg,#1a1a2e,#2d2d4e);
-                      display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-camera" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a1a2e,#2d2d4e);display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-hard-hat" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
           </div>
           <div class="cat-card-overlay"></div>
           <div class="cat-card-label">Construction Material</div>
         </div>
       </div>
-
-      <!-- Water Products-->
       <div class="col-md-4">
         <div class="cat-card">
-          <div style="width:100%;height:100%;
-                      background:linear-gradient(135deg,#0d1b2a,#1b3a5c);
-                      display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-headphones-alt" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#0d1b2a,#1b3a5c);display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-tint" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
           </div>
           <div class="cat-card-overlay"></div>
           <div class="cat-card-label">Water Products</div>
         </div>
       </div>
-
-      <!-- Electrical Components -->
       <div class="col-md-4">
         <div class="cat-card">
-          <div style="width:100%;height:100%;
-                      background:linear-gradient(135deg,#2a1a1a,#5c1b1b);
-                      display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-mobile-alt" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#2a1a1a,#5c1b1b);display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-bolt" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
           </div>
           <div class="cat-card-overlay"></div>
           <div class="cat-card-label">Electrical Components</div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -314,8 +261,6 @@
 ════════════════════════════════════════ -->
 <section class="collection-section" id="shop">
   <div class="container">
-
-    <!-- Section header -->
     <div class="section-heading">
       <div class="section-badge">Showcase</div>
       <h2 class="section-title">EXPLORE OUR<br>COLLECTION</h2>
@@ -325,79 +270,59 @@
         <div class="line"></div>
       </div>
     </div>
-
-    <!-- Tab navigation -->
     <div class="tab-nav">
       <button class="tab-btn active" data-tab="latest">Latest</button>
       <button class="tab-btn"        data-tab="hotdeals">Hot Deals</button>
     </div>
-
-    <!-- Latest products tab -->
     <div class="tab-pane active" id="tab-latest">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4" id="productsGrid"></div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4" id="productsGrid">
+        <div class="col text-center py-5 text-muted">
+          <i class="fas fa-spinner fa-spin fa-2x mb-2"></i><br>Loading products…
+        </div>
+      </div>
     </div>
-
-    <!-- Hot deals tab -->
     <div class="tab-pane" id="tab-hotdeals">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4" id="hotdealsGrid"></div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4" id="hotdealsGrid">
+        <div class="col text-center py-5 text-muted">
+          <i class="fas fa-spinner fa-spin fa-2x mb-2"></i><br>Loading products…
+        </div>
+      </div>
     </div>
-
-    <!-- View all CTA -->
     <div class="text-center mt-5">
       <a href="#" class="btn-hero" style="display:inline-flex;align-items:center;gap:10px;">
         View All Products &nbsp;<i class="fas fa-arrow-right fa-xs"></i>
       </a>
     </div>
-
   </div>
 </section>
 
 
 <!-- ════════════════════════════════════════
-     ABOUT / SPLIT SECTION
+     ABOUT SECTION
 ════════════════════════════════════════ -->
 <section class="about-section" id="about">
   <div class="row g-0">
-
-    <!-- Left — image / illustration -->
     <div class="col-lg-6 about-left">
-      <div style="width:100%;height:480px;
-                  background:linear-gradient(135deg,#e8edf2,#d0d8e8);
-                  display:flex;align-items:center;justify-content:center;
-                  position:relative;">
+      <div style="width:100%;height:480px;background:linear-gradient(135deg,#e8edf2,#d0d8e8);display:flex;align-items:center;justify-content:center;position:relative;">
         <div style="position:relative;width:280px;height:340px;">
-          <!-- iPhone mockup -->
-          <div style="position:absolute;right:20px;top:20px;
-                      width:180px;height:300px;
-                      background:linear-gradient(180deg,#d0d8e8,#b8c4d8);
-                      border-radius:24px;
-                      box-shadow:0 20px 60px rgba(0,0,0,0.15);
-                      display:flex;align-items:center;justify-content:center;">
-            <i class="fab fa-apple" style="font-size:48px;color:rgba(0,0,0,0.2);"></i>
+          <div style="position:absolute;right:20px;top:20px;width:180px;height:300px;background:linear-gradient(180deg,#d0d8e8,#b8c4d8);border-radius:24px;box-shadow:0 20px 60px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-hammer" style="font-size:48px;color:rgba(0,0,0,0.2);"></i>
           </div>
-          <!-- AirPods mockup -->
-          <div style="position:absolute;left:0;top:80px;
-                      width:100px;height:100px;
-                      background:linear-gradient(135deg,#fff,#e8edf2);
-                      border-radius:50%;
-                      box-shadow:0 8px 32px rgba(0,0,0,0.12);
-                      display:flex;align-items:center;justify-content:center;">
-            <i class="fas fa-headphones" style="font-size:36px;color:rgba(0,0,0,0.25);"></i>
+          <div style="position:absolute;left:0;top:80px;width:100px;height:100px;background:linear-gradient(135deg,#fff,#e8edf2);border-radius:50%;box-shadow:0 8px 32px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-wrench" style="font-size:36px;color:rgba(0,0,0,0.25);"></i>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- Right — dark text block -->
     <div class="col-lg-6 about-right">
       <div class="about-eyebrow">About Us</div>
-      <h2 class="about-title">ELEVATE YOUR STYLE.<br>CONSTRUCT WITH CONFIDENCE.</h2>
+      <h2 class="about-title">ELEVATE YOUR BUILD.<br>CONSTRUCT WITH CONFIDENCE.</h2>
       <p class="about-body">
-        We supply quality building materials, tools, and hardware products trusted by professionals and homeowners alike. From construction essentials to finishing supplies, we make it easy to get durable products at competitive prices. Whether you're building, renovating, or repairing, we're here to help you get the job done right.
+        We supply quality building materials, tools, and hardware products trusted by professionals and homeowners alike.
+        From construction essentials to finishing supplies, we make it easy to get durable products at competitive prices.
       </p>
       <a href="#" class="btn-learn">Learn More &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
     </div>
-
   </div>
 </section>
 
@@ -408,64 +333,41 @@
 <section class="featured-section">
   <div class="container">
     <div class="row align-items-center g-5">
-
-      <!-- Left — copy & CTA -->
       <div class="col-lg-5 featured-left">
         <div class="featured-tag">Featured Products</div>
         <h2 class="featured-title">FEATURED<br>PRODUCTS</h2>
         <p class="featured-body">
-          We are committed to delivering only high-quality and reliable hardware products you can trust. Every item in our store is carefully selected to ensure durability, safety, and value for money. Your satisfaction is our priority, and we stand behind the quality of everything we supply so you can build with confidence.
-
+          Every item in our store is carefully selected to ensure durability, safety, and value for money.
+          Your satisfaction is our priority — build with confidence.
         </p>
-        <a href="#" class="btn-buynow">Buy Now &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
+        <a href="#shop" class="btn-buynow">Shop Now &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
       </div>
-
-      <!-- Right — mosaic image grid -->
       <div class="col-lg-7">
         <div class="featured-mosaic">
-
-          <!-- Large left cell -->
           <div class="mosaic-main">
-            <div style="width:100%;height:100%;
-                        background:linear-gradient(135deg,#f4f6f9,#e8edf5);
-                        display:flex;align-items:center;justify-content:center;">
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#f4f6f9,#e8edf5);display:flex;align-items:center;justify-content:center;">
               <div style="text-align:center;padding:20px;">
-                <i class="fas fa-camera-retro"
-                   style="font-size:72px;color:rgba(0,0,0,0.12);display:block;margin-bottom:16px;"></i>
-                <div style="font-size:12px;font-weight:600;color:rgba(0,0,0,0.25);
-                            letter-spacing:1px;text-transform:uppercase;">Tripod + Selfie Stick</div>
+                <i class="fas fa-tools" style="font-size:72px;color:rgba(0,0,0,0.12);display:block;margin-bottom:16px;"></i>
+                <div style="font-size:12px;font-weight:600;color:rgba(0,0,0,0.25);letter-spacing:1px;text-transform:uppercase;">Professional Tools</div>
               </div>
             </div>
           </div>
-
-          <!-- Top-right small cell -->
           <div class="mosaic-sm">
-            <div style="width:100%;height:100%;
-                        background:linear-gradient(135deg,#fff5f5,#ffe8e8);
-                        display:flex;align-items:center;justify-content:center;">
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#fff5f5,#ffe8e8);display:flex;align-items:center;justify-content:center;">
               <div style="text-align:center;">
-                <i class="fas fa-bolt"
-                   style="font-size:36px;color:rgba(211,47,47,0.2);display:block;margin-bottom:8px;"></i>
-                <div style="font-size:10px;font-weight:700;color:rgba(0,0,0,0.25);
-                            letter-spacing:1px;text-transform:uppercase;">Power Banks</div>
+                <i class="fas fa-layer-group" style="font-size:36px;color:rgba(211,47,47,0.2);display:block;margin-bottom:8px;"></i>
+                <div style="font-size:10px;font-weight:700;color:rgba(0,0,0,0.25);letter-spacing:1px;text-transform:uppercase;">Boards &amp; Panels</div>
               </div>
             </div>
           </div>
-
-          <!-- Bottom-right small cell -->
           <div class="mosaic-sm">
-            <div style="width:100%;height:100%;
-                        background:linear-gradient(135deg,#f0f8ff,#ddeeff);
-                        display:flex;align-items:center;justify-content:center;">
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#f0f8ff,#ddeeff);display:flex;align-items:center;justify-content:center;">
               <div style="text-align:center;">
-                <i class="fas fa-mobile-alt"
-                   style="font-size:36px;color:rgba(30,41,59,0.2);display:block;margin-bottom:8px;"></i>
-                <div style="font-size:10px;font-weight:700;color:rgba(0,0,0,0.25);
-                            letter-spacing:1px;text-transform:uppercase;">Smartphones</div>
+                <i class="fas fa-shower" style="font-size:36px;color:rgba(30,41,59,0.2);display:block;margin-bottom:8px;"></i>
+                <div style="font-size:10px;font-weight:700;color:rgba(0,0,0,0.25);letter-spacing:1px;text-transform:uppercase;">Sanitary Ware</div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -474,46 +376,34 @@
 
 
 <!-- ════════════════════════════════════════
-     Construction Help
+     CONSTRUCTION HELP
 ════════════════════════════════════════ -->
 <section class="repair-section">
   <div class="container">
     <div class="row align-items-center g-5">
-
-      <!-- Left — copy & CTA -->
       <div class="col-lg-5 repair-left">
         <div class="repair-tag">Construction Help</div>
         <h2 class="repair-title">CONSTRUCTION PROBLEM?<br>CONSULT US</h2>
         <p class="repair-body">
-          Got a construction problem? We are here to help with reliable hardware and quality building materials for every stage of your project. From foundation to finishing, we provide trusted solutions designed for strength, durability, and long-lasting performance.
+          Got a construction problem? We are here to help with reliable hardware and quality building materials
+          for every stage of your project — from foundation to finishing.
         </p>
         <a href="#" class="btn-book">Book a Session &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
       </div>
-
-      <!-- Right — before/after gallery -->
       <div class="col-lg-7">
         <div class="repair-gallery">
-
-          <!-- Before card -->
           <div class="repair-img-card">
-            <div style="width:100%;height:100%;
-                        background:linear-gradient(135deg,#f0f0f0,#e0e0e0);
-                        display:flex;align-items:center;justify-content:center;">
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#f0f0f0,#e0e0e0);display:flex;align-items:center;justify-content:center;">
               <i class="fas fa-tools" style="font-size:64px;color:rgba(0,0,0,0.12);"></i>
             </div>
             <div class="repair-label">Before</div>
           </div>
-
-          <!-- After card -->
           <div class="repair-img-card">
-            <div style="width:100%;height:100%;
-                        background:linear-gradient(135deg,#1a2a3e,#0d1b2a);
-                        display:flex;align-items:center;justify-content:center;">
-              <i class="fab fa-apple" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
+            <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a2a3e,#0d1b2a);display:flex;align-items:center;justify-content:center;">
+              <i class="fas fa-home" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
             </div>
             <div class="repair-label-after">After</div>
           </div>
-
         </div>
       </div>
     </div>
@@ -527,19 +417,17 @@
 <footer class="site-footer">
   <div class="container">
     <div class="row g-5">
-
-      <!-- Brand column -->
       <div class="col-lg-4">
         <div class="brand-wrap mb-3">
-          <div class="brand-icon"><i class="fas fa-fire"></i></div>
+          <div class="brand-icon"><i class="fas fa-hammer"></i></div>
           <div>
-            <div class="footer-logo-text">OASIS</div>
-            <div class="footer-logo-sub">Technologies</div>
+            <div class="footer-logo-text">MAMBO</div>
+            <div class="footer-logo-sub">Hardware</div>
           </div>
         </div>
         <p class="footer-desc">
-          Thika's world-class tech hub. Premium Ex-UK iPhones, Samsung devices,
-          essential accessories, and genuine screen repairs — all under one roof.
+          Ruiru's trusted hardware store. Quality building materials, tools, sanitary ware,
+          and electrical supplies — all under one roof.
         </p>
         <div class="footer-social">
           <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
@@ -549,35 +437,27 @@
           <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
         </div>
       </div>
-
-      <!-- Quick links -->
       <div class="col-lg-2 col-6">
         <div class="footer-heading">Quick Links</div>
         <a class="footer-link" href="#">Home</a>
-        <a class="footer-link" href="#">About Us</a>
-        <a class="footer-link" href="#">Shop</a>
+        <a class="footer-link" href="#about">About Us</a>
+        <a class="footer-link" href="#shop">Shop</a>
         <a class="footer-link" href="#">Blog</a>
         <a class="footer-link" href="#">Contact</a>
       </div>
-
-      <!-- Categories -->
       <div class="col-lg-2 col-6">
         <div class="footer-heading">Categories</div>
         <a class="footer-link" href="#">Building Materials</a>
         <a class="footer-link" href="#">Kitchen Components</a>
         <a class="footer-link" href="#">Tools</a>
-        <a class="footer-link" href="#">Wood & Accesories</a>
+        <a class="footer-link" href="#">Wood &amp; Accessories</a>
         <a class="footer-link" href="#">Steel</a>
       </div>
-
-      <!-- Contact info -->
       <div class="col-lg-4">
         <div class="footer-heading">Contact Us</div>
         <div class="footer-contact-item">
           <i class="fas fa-map-marker-alt footer-contact-icon"></i>
-          <div class="footer-contact-text">
-            Ruai Eastern Bypass Kamulu
-          </div>
+          <div class="footer-contact-text">Ruiru Bypass, Kamakis, Kiambu, Kenya</div>
         </div>
         <div class="footer-contact-item">
           <i class="fas fa-phone-alt footer-contact-icon"></i>
@@ -588,10 +468,7 @@
           <div class="footer-contact-text">info@mambohardware.co.ke</div>
         </div>
       </div>
-
     </div>
-
-    <!-- Footer bottom bar -->
     <div class="footer-bottom">
       <div class="footer-copy">&copy; 2026 Mambo Hardware. All rights reserved.</div>
       <div class="footer-copy">Built with Trust</div>
@@ -600,32 +477,26 @@
 </footer>
 
 
-<!-- ════════════════════════════════════════
-     SCROLL TO TOP BUTTON
-════════════════════════════════════════ -->
+<!-- SCROLL TO TOP -->
 <button id="scrollTop" aria-label="Scroll to top">
   <i class="fas fa-arrow-up"></i>
 </button>
 
 
-<!-- ════════════════════════════════════════
-     SEARCH MODAL
-════════════════════════════════════════ -->
-<div class="search-modal" id="searchModal" role="dialog" aria-modal="true" aria-label="Search">
+<!-- SEARCH MODAL -->
+<div class="search-modal" id="searchModal" role="dialog" aria-modal="true">
   <div class="search-box">
     <div class="d-flex align-items-center gap-3 mb-3">
       <h6 style="font-weight:700;color:var(--charcoal);margin:0;">Search Products</h6>
-      <button class="ms-auto btn-close" id="closeSearch" aria-label="Close search"></button>
+      <button class="ms-auto btn-close" id="closeSearch"></button>
     </div>
-    <input type="text"
-           class="search-input"
-           id="searchInput"
-           placeholder="Search for Accesorie, Construction Materials and Products…"
+    <input type="text" class="search-input" id="searchInput"
+           placeholder="Search for construction materials, tools, sanitary ware…"
            autocomplete="off"/>
-    <div class="mt-3 d-flex gap-2 flex-wrap" id="searchSuggestions">
-      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);"?>Construction Material</span>
+    <div class="mt-3 d-flex gap-2 flex-wrap">
+      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Construction Material</span>
       <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Boards</span>
-      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Shower Accesories</span>
+      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Shower Accessories</span>
       <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Tools</span>
     </div>
   </div>
@@ -633,12 +504,12 @@
 
 
 <!-- ════════════════════════════════════════
-     SCRIPTS  (load order matters)
+     SCRIPTS
 ════════════════════════════════════════ -->
-<!-- Bootstrap JS bundle (includes Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Custom site JS -->
+<!-- Cart drawer must load BEFORE app.js so bindAddToCartButtons is available -->
 <script src="app.js"></script>
+<script src="cart-drawer.js"></script>
 
 </body>
 </html>
