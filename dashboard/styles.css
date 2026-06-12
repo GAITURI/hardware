@@ -420,6 +420,30 @@ body {
   padding: 56px 0;
   background: #fff;
 }
+.explore-heading-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* Space between lines and text */
+  margin: 40px 0; /* Adjust spacing as needed */
+}
+
+.explore-line {
+  flex: 1;
+  max-width: 150px; /* Adjust the length of the lines */
+  height: 2px;
+  background: var(--crimson);
+  opacity: 0.3;
+}
+
+.explore-text {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  margin: 0; /* Remove default margins */
+}
 .section-heading {
   text-align: center;
   margin-bottom: 36px;

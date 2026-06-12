@@ -301,12 +301,13 @@ $p_price = floatval($product['price']);
                 const outcome = await response.json();
                 if (outcome.status === 'success') {
                     // alert('Items registered successfully to your cart session.');
-                    window.location.href = 'cart/index.php';
+                    window.location.href = 'cart.php';
                     // If you have a global update counter implementation inside cart-drawer.js, invoke it here
                     const cartBadge = document.querySelector('.relative.cursor-pointer span');
                     if (cartBadge) {
                              cartBadge.textContent = outcome.new_total_count;
-                } else {
+                    }
+                 } else {
                     console.error('API Error Response:', outcome.message);
                 }
             } catch (err) {
