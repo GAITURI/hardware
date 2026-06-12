@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../db_connection.php';
-
+require_once __DIR__ . '/../api/cart_helper.php'; // <-- Call it here!
 // 1. Get the ID from the URL (not name)
 $product_id = isset($_GET['id']) ? trim($_GET['id']) : '';
 
@@ -288,20 +288,24 @@ $p_price = floatval($product['price']);
             const quantity = parseInt(document.getElementById('quantity-widget').value) || 1;
             
             try {
-                const response = await fetch('api/cart_add.php', {
+                const response = await fetch('../api/cart_add.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        product_id: productId,
-                        price: productPrice,
+                        product_id:parseInt(productId),
+                        price: parseFloat(productPrice) || 0,
                         quantity: quantity
                     })
                 });
                 
                 const outcome = await response.json();
                 if (outcome.status === 'success') {
-                    alert('Items registered successfully to your cart session.');
+                    // alert('Items registered successfully to your cart session.');
+                    window.location.href = 'cart/index.php';
                     // If you have a global update counter implementation inside cart-drawer.js, invoke it here
+                    const cartBadge = document.querySelector('.relative.cursor-pointer span');
+                    if (cartBadge) {
+                             cartBadge.textContent = outcome.new_total_count;
                 } else {
                     console.error('API Error Response:', outcome.message);
                 }
