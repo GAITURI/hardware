@@ -24,13 +24,13 @@ try {
     echo json_encode(['error' => 'Database connection failed: ' . $e->getMessage()]);
 }
 
-// ... inside your PHP file
-$products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// // ... inside your PHP file
+// $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Add this to verify the file is actually running:
-$products[] = ['name' => 'DEBUG_TEST_FILE_LOADED', 'id' => 999]; 
+// // Add this to verify the file is actually running:
+// $products[] = ['name' => 'DEBUG_TEST_FILE_LOADED', 'id' => 999]; 
 
-header('Content-Type: application/json');
-echo json_encode($products);
+// header('Content-Type: application/json');
+// echo json_encode($products);
 exit;
 ?>
