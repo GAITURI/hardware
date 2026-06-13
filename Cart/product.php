@@ -50,42 +50,109 @@ $p_price = floatval($product['price']);
             }
         }
     </script>
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; }
-        .sticky-nav { position: sticky; top: 0; z-index: 1000; background: #ffffff; border-bottom: 1px solid #e2e8f0; }
-        .tab-active { border-bottom: 2px solid #ef4444; color: #ef4444; font-weight: 700; }
-    </style>
+    
+    <link rel="stylesheet" href="product.css"/>
 </head>
 <body>
+<div class="top-bar">
+  <div class="container-fluid px-4">
+    <div class="row align-items-center">
 
-    <nav class="sticky-nav py-3 px-6 shadow-sm">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-                <div class="bg-red-500 text-white font-extrabold px-3 py-1 rounded text-sm tracking-wider">Mambo</div>
-                <div class="text-xs text-gray-500 font-bold uppercase tracking-widest hidden sm:block">Hardware</div>
-            </div>
-            
-            <div class="flex space-x-8 font-medium text-sm text-gray-700">
-                <a href="dashboard/dashboard.php" class="hover:text-mamboRed transition-colors">Home</a>
-                <a href="#about" class="hover:text-mamboRed transition-colors">About</a>
-                <a href="#shop" class="hover:text-mamboRed transition-colors">Shop</a>
-                <a href="#blog" class="hover:text-mamboRed transition-colors">Blog</a>
-                <a href="#contact" class="hover:text-mamboRed transition-colors">Contact</a>
-            </div>
-
-            <div class="flex items-center space-x-6 text-gray-700">
-                <button class="hover:text-mamboRed transition-colors"><i class="fas fa-search"></i></button>
-                <div class="relative cursor-pointer hover:text-mamboRed transition-colors">
-                    <i class="fas fa-shopping-cart text-lg"></i>
-                    <span class="absolute -top-2 -right-2 bg-mamboRed text-white rounded-full text-[10px] w-4 h-4 flex items-center justify-center font-bold">0</span>
-                </div>
-                <button class="border border-gray-200 px-3 py-1.5 rounded-full text-xs font-semibold flex items-center space-x-1 hover:bg-gray-50">
-                    <i class="far fa-user-circle text-sm text-gray-400"></i>
-                    <span>Admin</span>
-                </button>
-            </div>
+      <div class="col-md-4 top-bar-item">
+        <div class="top-bar-icon"><i class="fas fa-phone-alt"></i></div>
+        <div>
+          <div class="top-bar-label">Call Us Now</div>
+          <div class="top-bar-value">+254798275251</div>
         </div>
-    </nav>
+      </div>
+
+      <div class="col-md-4 top-bar-item">
+        <div class="top-bar-icon"><i class="fas fa-envelope"></i></div>
+        <div>
+          <div class="top-bar-label">Email Us</div>
+          <div class="top-bar-value">info@mambohardware.co.ke</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 d-flex align-items-center justify-content-between ps-4">
+        <div class="top-bar-item" style="border-right:none">
+          <div class="top-bar-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="top-bar-label">Find Us</div>
+            <div class="top-bar-value" style="font-size:12px;line-height:1.35">
+              Ruiru Bypass<br>Kamakis, Kiambu, Kenya
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- main navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm main-nav sticky-top" id="mainNav">
+  <div class="container-fluid px-2 px-md-4">
+
+    <a class="navbar-brand me-auto"  href="../dashboard/dashboard.php">
+      <div class="brand-wrap">
+        <div class="brand-icon">
+        <img src="../dashboard/images/logoimg.jpg" alt="Mambo Hardware Logo" class="brand-logo-img">
+        </div>
+        <div>
+          <div class="brand-text-top">Mambo</div>
+          <div class="brand-text-bot">Hardware</div>
+        </div>
+      </div>
+    </a>
+    <div class="d-flex align-items-center gap-2 order-lg-last">
+    <div class="nav-utilities d-flex align-items-center gap-2">
+      <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
+        <i class="fas fa-search"></i>
+      </button>
+      <!-- Cart button — clicked to open drawer (handled by cart-drawer.js) -->
+      <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
+      </a>
+      <a href="#" class="btn-admin">
+        <i class="fas fa-user-shield"></i> <span class="d-none d-md-inline">Admin</span>
+      </a>
+    </div>
+    <button class="navbar-toggler border-0" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  </div>
+  <div class="collapse navbar-collapse justify-content-center" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
+          <ul class="dropdown-menu border-0 shadow"
+              style="border-radius:10px;min-width:200px;padding:8px;">
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Building Materials</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Sanitary Ware</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Electrical</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tools</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tiles & Flooring</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      </ul>
+    </div>
+
+</div> 
+</nav>
+    
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
@@ -274,7 +341,7 @@ $p_price = floatval($product['price']);
             &copy; 2026 Mambo Hardware / Oasis Technologies. All rights reserved.
         </div>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function adjustQty(amount) {
             const qtyInput = document.getElementById('quantity-widget');

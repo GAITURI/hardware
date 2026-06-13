@@ -100,7 +100,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
     </button>
 
     <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul class="navbar-nav" ms-auto>
+      <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item dropdown">
