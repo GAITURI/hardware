@@ -1,4 +1,4 @@
-/* ═══════════════════════════════════════════════════════════
+/* 
    MAMBO HARDWARE — dashboard/app.js
    Handles: product rendering, tabs, hero carousel,
             scroll-to-top, search modal, active nav.
@@ -16,13 +16,7 @@ function renderStars(n) {
   ).join('');
 }
 
-/**
- * Build a product card HTML string.
- *
- * IMPORTANT: data-* attributes on .product-card are read by
- * cart-drawer.js → bindAddToCartButtons() to build the cart payload.
- * Do NOT remove them.
- */
+
 function buildCard(p) {
   console.log("Mambo Hardware Product Data Object:", p);
   const color = p.color || '#1e293b';
@@ -33,8 +27,8 @@ function buildCard(p) {
   const safeImg  = String(p.image_url || '').replace(/"/g, '&quot;'); 
   const imgPath = 'images/' + p.image_url.replace('images/', '');
   const resolvedId = p.id;
-  // Encode the product id safely to pass through an URL parameter query
   const productUrl = `../cart/product.php?id=${resolvedId}`;
+  
   return `
     <div class="col">
       <div class="product-card"
@@ -45,16 +39,18 @@ function buildCard(p) {
            data-description="${safeDesc}">
 
         ${p.onSale ? '<span class="badge-sale">On Sale</span>' : ''}
-        <a href="${productUrl}"class="text-decoration-none d-block">
+       
         <div class="product-img-wrap"
              style="background:linear-gradient(135deg,${color}18,${color}08);">
-          <img src="${imgPath}" alt="${safeName}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;">          
+          <a href="${productUrl}" class="d-block w-100 h-100">
+            <img src="${imgPath}" alt="${safeName}" class="product-card-img">
+          </a>
         </div>
-        </a>
+       
         <div class="product-body">
           <div class="star-row">${renderStars(p.rating || 5)}</div>
           <div class="product-name">
-          <a href="${productUrl}" class="text-decoration-none text-dark hover:text-danger font-weight-bold">
+            <a href="${productUrl}" class="text-decoration-none text-dark hover:text-danger font-weight-bold">
               ${p.name}
             </a>
           </div>
@@ -65,19 +61,19 @@ function buildCard(p) {
               ? `<span class="price-old">KES ${Number(p.oldPrice).toLocaleString('en-KE')}</span>`
               : ''}
           </div>
-          
-          <a href="${productUrl}" class="btn-hero mt-3 w-100 d-block text-center text-decoration-none"
-             style="border-radius:8px;font-size:11px;padding:10px;background-color:#ef4444;color:#ffffff;font-weight:700;">
-            Add to Cart &nbsp;<i class="fas fa-cart-plus fa-xs"></i>
-          </a>
+           <button class="hover-cart-btn text-center text-decoration-none border-0" 
+        onclick="event.stopPropagation(); window.location.href='${productUrl}';">
+  Add to Cart &nbsp;<i class="fas fa-cart-plus"></i>
+</button>
+            
         </div>
       </div>
     </div>`;
 }
 
-/* ════════════════════════════════════════
+/*
    LOAD & RENDER PRODUCTS FROM PHP API
-════════════════════════════════════════ */
+*/
 async function initDashboard() {
   try {
     const response = await fetch('../api/get_products.php');
@@ -95,22 +91,27 @@ async function initDashboard() {
         ? latest.map(buildCard).join('')
         : '<p class="text-center text-muted py-4">No products found.</p>';
     }
+   
+  
     if (hotdealsGrid) {
       hotdealsGrid.innerHTML = hotDeals.length
         ? hotDeals.map(buildCard).join('')
         : '<p class="text-center text-muted py-4">No hot deals right now.</p>';
     }
-
-  } catch (err) {
+    if (typeof bindAddToCartButtons === 'function'){
+      bindAddToCartButtons();
+   }
+  } catch (err){
     console.error('Error loading products:', err);
   }
 }
 
+
 document.addEventListener('DOMContentLoaded', initDashboard);
 
-/* ════════════════════════════════════════
+/* 
    PRODUCT TAB SWITCHING
-════════════════════════════════════════ */
+ */
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -120,9 +121,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-/* ════════════════════════════════════════
+/* 
    HERO CAROUSEL
-════════════════════════════════════════ */
+*/
 const slides = [
   { tag: 'New Stock',           title: 'Interior\nProducts',    sub: '',  btn: 'Shop Now',  img: 'images/elec1.jpg'  },
   { tag: 'Latest Arrival',      title: 'Shower\nComponents',    sub: '',  btn: 'View More', img: 'images/bowl1.jpg'  },

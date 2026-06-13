@@ -34,11 +34,9 @@ session_start();
 $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 ?>
 
-<!-- ════════════════════════════════════════
-     TOP UTILITY BAR
-════════════════════════════════════════ -->
+<!-- TOP UTILITY BAR -->
 <div class="top-bar">
-  <div class="container">
+  <div class="container-fluid px-4">
     <div class="row align-items-center">
 
       <div class="col-md-4 top-bar-item">
@@ -80,15 +78,15 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 </div>
 
 
-<!-- ════════════════════════════════════════
-     MAIN NAVBAR
-════════════════════════════════════════ -->
-<nav class="navbar navbar-expand-lg main-nav sticky-top" id="mainNav">
-  <div class="container">
+<!-- main navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm main-nav sticky-top" id="mainNav">
+  <div class="container-fluid px-2 px-md-4">
 
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand me-auto"  href="dashboard.php">
       <div class="brand-wrap">
-        <div class="brand-icon"><i class="fas fa-hammer"></i></div>
+        <div class="brand-icon">
+        <img src="images/logoimg.jpg" alt="Mambo Hardware Logo" class="brand-logo-img">
+        </div>
         <div>
           <div class="brand-text-top">Mambo</div>
           <div class="brand-text-bot">Hardware</div>
@@ -101,8 +99,8 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse justify-content-center" id="navMenu">
-      <ul class="navbar-nav">
+    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+      <ul class="navbar-nav" ms-auto>
         <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
         <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
         <li class="nav-item dropdown">
@@ -218,9 +216,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 </section>
 
 
-<!-- ════════════════════════════════════════
-     CATEGORIES
-════════════════════════════════════════ -->
+<!-- category sections -->
 <section class="categories-section">
   <div class="container">
     <div class="row g-3">
@@ -256,19 +252,13 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 </section>
 
 
-<!-- ════════════════════════════════════════
-     EXPLORE OUR COLLECTION
-════════════════════════════════════════ -->
+<!-- Collection section -->
 <section class="collection-section" id="shop">
   <div class="container">
-    <div class="section-heading">
-      <div class="section-badge">Showcase</div>
-      <h2 class="section-title">EXPLORE OUR<br>COLLECTION</h2>
-      <div class="section-rule">
-        <div class="line"></div>
-        <i class="fas fa-circle" style="font-size:6px;color:var(--crimson);opacity:0.5;"></i>
-        <div class="line"></div>
-      </div>
+    <div class="explore-heading-wrap">
+      <div class="explore-line"></div>
+      <h2 class="explore-text">EXPLORE OUR <br>Collection</h2>
+      <div class="explore-line"></div>
     </div>
     <div class="tab-nav">
       <button class="tab-btn active" data-tab="latest">Latest</button>

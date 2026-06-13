@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   OASIS TECHNOLOGIES — Main Stylesheet
+   MAMBO HARDWARE — Main Stylesheet
    Stack: Bootstrap 5 + Tailwind CSS + Custom CSS
    Author: Oasis Technologies
 ═══════════════════════════════════════════════════════════ */
@@ -35,40 +35,64 @@ body {
 .top-bar {
   background: #0f172a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  width: 100%;
+}
+@media (max-width: 991px) {
+  navbar > .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  
+  /* Force the brand and toggler to the absolute edges */
+  .navbar-brand {
+    padding-left: 15px !important;
+  }
+  
+  .navbar-toggler {
+    margin-right: 15px !important;
+  }
+  .top-bar-item {
+    border-right: none; /* Remove borders on smaller screens to save space */
+    justify-content: center;
+    padding: 10px 0;
+  }
+  .ps-4 { padding-left: 0 !important; }
 }
 .top-bar-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 14px 0;
+  gap: 15px;
+  padding: 18px 10px;
   border-right: 1px solid rgba(255, 255, 255, 0.08);
+  height: 100%;
 }
 .top-bar-item:last-child {
   border-right: none;
 }
 .top-bar-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: rgba(211, 47, 47, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--crimson);
-  font-size: 16px;
+  font-size: 18px;
   flex-shrink: 0;
 }
 .top-bar-label {
-  font-size: 10px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
 }
 .top-bar-value {
-  font-size: 13px;
+  font-size: 14px;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
+  margin-top: 2px;
 }
 .social-icon {
   width: 32px;
@@ -110,14 +134,18 @@ body {
 .brand-icon {
   width: 42px;
   height: 42px;
-  background: var(--crimson);
+  background: transparent;
+  overflow: hidden;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  color: #fff;
-  font-weight: 800;
+
+}
+.brand-logo-img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .brand-text-top {
   font-size: 15px;
@@ -425,24 +453,37 @@ body {
   align-items: center;
   justify-content: center;
   gap: 20px; /* Space between lines and text */
-  margin: 40px 0; /* Adjust spacing as needed */
+  margin: 40px 0 32px 0; /* Adjust spacing as needed */
+  width: 100%;
+  padding: 0 15px;
 }
 
 .explore-line {
   flex: 1;
-  max-width: 150px; /* Adjust the length of the lines */
-  height: 2px;
+  min-width: 60px;
+  max-width: 180px; /* Adjust the length of the lines */
+  height: 3px;
   background: var(--crimson);
-  opacity: 0.3;
+  opacity: 1;
+  border-radius: 2px;
 }
 
 .explore-text {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: 32px;
+  font-size: 40px;
   font-weight: 800;
   text-transform: uppercase;
   color: var(--charcoal);
+  flex-shrink: 0;
   margin: 0; /* Remove default margins */
+}
+@media (max-width: 576px) {
+  .explore-text {
+    font-size: 22px; /* Smooth scale down for smartphones */
+  }
+  .explore-line {
+    max-width: 80px; /* Shortens lines so everything fits comfortably */
+  }
 }
 .section-heading {
   text-align: center;
@@ -568,9 +609,13 @@ body {
   display: block;
 }
 .product-card {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 8px;
+  height: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
@@ -594,27 +639,47 @@ body {
   border-radius: 4px;
 }
 .product-img-wrap {
-  background: #f4f6f9;
-  padding: 20px;
-  height: 200px;
+  background: #f8fafc;
+  height: 250px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px 12px 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  border-radius: 12px;
+  padding: 16px; /* Prevents image from hitting raw component edges */
 }
-.product-img-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-  transition: transform 0.35s ease;
+
+.product-card-img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: custom; /* Strictly keeps image bounded, never cut off or distorted */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.product-card:hover .product-img-wrap img {
-  transform: scale(1.06);
+
+.product-card:hover .product-card-img {
+  transform: scale(1.05); /* Clean, premium scaling */
 }
+
+@media (max-width: 768px) {
+  /* Touch screens don't have hover states, force it visible inside the footer instead */
+  .hover-cart-btn {
+    bottom: 0;
+    opacity: 1;
+    padding: 8px 5px;
+    font-size: 10px;
+    background-color: #ef4444;
+  }
+}
+
 .product-body {
   padding: 16px;
+  display: flex;
+  min-height: 170px;
+  flex-direction: column;
 }
 .star-row {
   color: #f59e0b;
@@ -633,6 +698,9 @@ body {
   min-height: 36px;
   margin-bottom: 10px;
 }
+.product-name a {
+  transition: color 0.2s ease;
+}
 .price-row {
   display: flex;
   align-items: center;
@@ -648,7 +716,51 @@ body {
   color: var(--slate);
   text-decoration: line-through;
 }
+/* ── PREMIUM PILL BUTTON REVEAL ── */
+.hover-cart-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  height: 40px;
+  background-color: var(--crimson);
+  color: #ffffff;
+  border: none;
+  border-radius: 50px; /* Forces beautiful Pill layout */
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0; /* Fully hidden initially */
+  transform: translateY(10px); /* Clean upward slide animation */
+  pointer-events: none; /* Disables accidental misclicks while invisible */
+  transition: opacity 0.25s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s;
+  z-index: 5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hover-cart-btn:hover {
+  background-color: var(--crimson-dark);
+}
 
+/* Trigger animation when hovering anywhere near the card context */
+.product-card:hover .hover-cart-btn {
+  opacity: 1;
+  max-height: 50px;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto; /* Activates interaction elements */
+}
+
+/* ── MOBILE TOUCH ACCESSIBILITY ── */
+@media (max-width: 768px) {
+  .product-body {
+    padding-bottom: 68px;
+  }
+} 
+  
 /* ════════════════════════════════════════
    ABOUT / SPLIT SECTION
 ════════════════════════════════════════ */
