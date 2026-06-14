@@ -45,6 +45,9 @@ $p_price = floatval($product['price']);
                     colors: {
                         mamboRed: '#ef4444',
                         mamboDark: '#1e293b',
+                        crimson:'#d32f2f',
+                        charcoal:'#1e293b',
+                        slate:'#64748b'
                     }
                 }
             }
@@ -54,7 +57,8 @@ $p_price = floatval($product['price']);
     <link rel="stylesheet" href="product.css"/>
 </head>
 <body>
-<div class="top-bar">
+
+<div class="top-bar hidden lg:block">
   <div class="container-fluid px-4">
     <div class="row align-items-center">
 
@@ -111,22 +115,18 @@ $p_price = floatval($product['price']);
         </div>
       </div>
     </a>
+    
     <div class="d-flex align-items-center gap-2 order-lg-last">
     <div class="nav-utilities d-flex align-items-center gap-2">
       <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
         <i class="fas fa-search"></i>
       </button>
       <!-- Cart button — clicked to open drawer (handled by cart-drawer.js) -->
-      <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
-      </a>
       <a href="#" class="btn-admin">
         <i class="fas fa-user-shield"></i> <span class="d-none d-md-inline">Admin</span>
       </a>
     </div>
-    <button class="navbar-toggler border-0" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navMenu">
+    <button class="navbar-toggler border-0" type="button"data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
   </div>
@@ -150,17 +150,13 @@ $p_price = floatval($product['price']);
       </ul>
     </div>
 
-</div> 
+</div>
 </nav>
     
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <nav class="text-xs text-gray-400 font-medium mb-6">
-            <a href="dashboard/dashboard.php" class="hover:underline">Home</a> <span class="mx-2">/</span>
-            <a href="#shop" class="hover:underline">Shop</a> <span class="mx-2">/</span>
-            <span class="text-gray-600"><?php echo htmlspecialchars($product['name']); ?></span>
-        </nav>
+        
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
             
@@ -175,7 +171,7 @@ $p_price = floatval($product['price']);
 
     <div class="flex space-x-3">
         <div class="w-20 h-20 border-2 border-mamboRed rounded p-1 cursor-pointer bg-white overflow-hidden">
-            <img src="../dashboard/<?php echo htmlspecialchars($product['image_url']); ?>" 
+            <img src="../dashboard/<?php echo htmlspecialchars($product['image_url']); ?>"
                  alt="Thumbnail Preview" 
                  class="w-full h-full object-cover">
         </div>

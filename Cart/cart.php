@@ -21,577 +21,141 @@ $count    = $cartData['count'];
   <title>Your Cart — Mambo Hardware</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
-  <style>
-    /* ══════════════════════════════════
-       DESIGN TOKENS
-    ══════════════════════════════════ */
-    :root {
-      --red:        #d32f2f;
-      --red-dark:   #b71c1c;
-      --ink:        #111827;
-      --ink-soft:   #374151;
-      --muted:      #6b7280;
-      --border:     #e5e7eb;
-      --surface:    #f9fafb;
-      --white:      #ffffff;
-      --font:       'Inter', sans-serif;
-      --font-cond:  'Barlow Condensed', sans-serif;
-      --radius:     10px;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font);
-      background: var(--surface);
-      color: var(--ink);
-      font-size: 14px;
-      line-height: 1.55;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ══════════════════════════════════
-       NAVBAR — matches dashboard exactly
-    ══════════════════════════════════ */
-    .main-nav {
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 1050;
-      padding: 0;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    }
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 66px;
-    }
-
-    /* Brand */
-    .brand-wrap {
-      display: flex; align-items: center; gap: 9px;
-      text-decoration: none; flex-shrink: 0;
-    }
-    .brand-icon {
-      width: 40px; height: 40px; border-radius: 8px;
-      background: var(--red); color: #fff;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 16px; flex-shrink: 0;
-    }
-    .brand-text-top {
-      font-size: 14px; font-weight: 800;
-      color: var(--ink); line-height: 1;
-    }
-    .brand-text-bot {
-      font-size: 8px; font-weight: 600;
-      color: var(--red); letter-spacing: 1.8px;
-      text-transform: uppercase;
-    }
-
-    /* Nav links */
-    .nav-links {
-      display: flex; align-items: center; gap: 2px;
-    }
-    .nav-links a {
-      font-size: 13.5px; font-weight: 600;
-      color: var(--ink-soft); text-decoration: none;
-      padding: 8px 15px; border-radius: 7px;
-      transition: color 0.2s, background 0.18s;
-      position: relative;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute; bottom: 4px; left: 15px; right: 15px;
-      height: 2px; background: var(--red);
-      transform: scaleX(0); transition: transform 0.2s;
-      transform-origin: center;
-    }
-    .nav-links a:hover { color: var(--red); }
-    .nav-links a:hover::after,
-    .nav-links a.active::after { transform: scaleX(1); }
-    .nav-links a.active { color: var(--red); }
-
-    /* Dropdown */
-    .nav-links .dropdown-menu {
-      border: 1px solid var(--border); border-radius: 10px;
-      padding: 6px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-    }
-    .nav-links .dropdown-item {
-      font-size: 13px; font-weight: 600;
-      border-radius: 6px; padding: 8px 14px;
-      color: var(--ink-soft);
-    }
-    .nav-links .dropdown-item:hover { background: #fef2f2; color: var(--red); }
-
-    /* Right utilities */
-    .nav-utils { display: flex; align-items: center; gap: 7px; }
-    .nav-icon-btn {
-      width: 38px; height: 38px; border-radius: 8px;
-      border: 1.5px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--ink); font-size: 14px;
-      text-decoration: none; background: #fff;
-      transition: all 0.2s; cursor: pointer;
-      position: relative;
-    }
-    .nav-icon-btn:hover,
-    .nav-icon-btn.active-cart {
-      border-color: var(--red); color: var(--red);
-    }
-    .cart-badge {
-      position: absolute; top: -5px; right: -5px;
-      background: var(--red); color: #fff;
-      font-size: 9px; font-weight: 700;
-      width: 17px; height: 17px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      border: 2px solid #fff;
-    }
-    .btn-admin {
-      font-size: 12.5px; font-weight: 600; color: var(--ink);
-      border: 1.5px solid var(--border); border-radius: 8px;
-      padding: 7px 14px; text-decoration: none;
-      display: flex; align-items: center; gap: 6px;
-      background: #fff; transition: all 0.2s;
-    }
-    .btn-admin:hover { color: var(--ink); border-color: var(--ink); }
-
-    /* ══════════════════════════════════
-       PAGE HEADER BAND
-    ══════════════════════════════════ */
-    .page-header {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-      padding: 22px 0 20px;
-    }
-    .page-header h1 {
-      font-family: var(--font-cond);
-      font-size: 34px; font-weight: 800;
-      text-transform: uppercase; letter-spacing: 0.4px;
-      color: var(--ink); line-height: 1;
-    }
-
-    /* ══════════════════════════════════
-       MAIN LAYOUT
-    ══════════════════════════════════ */
-    .cart-page { padding: 36px 0 90px; }
-
-    /* ══════════════════════════════════
-       CART TABLE PANEL
-    ══════════════════════════════════ */
-    .cart-panel {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    /* Column header row */
-    .cart-col-header {
-      display: grid;
-      grid-template-columns: 1fr 120px 120px 130px 40px;
-      align-items: center;
-      padding: 11px 22px;
-      border-bottom: 1px solid var(--border);
-      background: var(--surface);
-    }
-    .col-label {
-      font-size: 10.5px; font-weight: 700;
-      letter-spacing: 1.4px; text-transform: uppercase;
-      color: var(--muted);
-    }
-    .col-label.center { text-align: center; }
-    .col-label.right  { text-align: right; }
-
-    /* Cart row */
-    .cart-row {
-      display: grid;
-      grid-template-columns: 1fr 120px 120px 130px 40px;
-      align-items: center;
-      padding: 18px 22px;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
-    }
-    .cart-row:last-child { border-bottom: none; }
-    .cart-row:hover { background: #fafafa; }
-
-    /* Product cell */
-    .product-cell { display: flex; align-items: center; gap: 14px; }
-    .product-thumb {
-      width: 62px; height: 62px; border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      overflow: hidden; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .product-thumb img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
-    .product-thumb .ph { font-size: 20px; color: #d1d5db; }
-    .product-name {
-      font-size: 14px; font-weight: 600;
-      color: var(--ink); margin-bottom: 3px;
-      line-height: 1.3;
-    }
-    .product-unit {
-      font-size: 12px; color: var(--muted);
-    }
-
-    /* Qty stepper */
-    .qty-cell { display: flex; justify-content: center; }
-    .qty-stepper {
-      display: inline-flex; align-items: center;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      overflow: hidden; height: 34px;
-    }
-    .qty-stepper button {
-      width: 32px; height: 34px;
-      border: none; background: var(--surface);
-      color: var(--ink); font-size: 11px;
-      cursor: pointer; transition: all 0.18s;
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-    }
-    .qty-stepper button:hover { background: var(--red); color: #fff; }
-    .qty-stepper .qty-val {
-      min-width: 34px; text-align: center;
-      font-size: 14px; font-weight: 700; color: var(--ink);
-      border-left: 1.5px solid var(--border);
-      border-right: 1.5px solid var(--border);
-      line-height: 34px; padding: 0 2px;
-    }
-
-    /* Price / Total cells */
-    .price-cell {
-      text-align: right;
-      font-size: 14px; font-weight: 500; color: var(--ink-soft);
-    }
-    .total-cell {
-      text-align: right;
-      font-size: 14px; font-weight: 700; color: var(--ink);
-    }
-
-    /* Remove button */
-    .remove-cell { display: flex; justify-content: center; }
-    .remove-btn {
-      background: none; border: none;
-      color: #d1d5db; font-size: 13px; cursor: pointer;
-      padding: 6px; border-radius: 6px;
-      transition: all 0.18s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .remove-btn:hover { color: var(--red); background: #fef2f2; }
-
-    /* Continue shopping */
-    .continue-link {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-size: 13px; font-weight: 600; color: var(--muted);
-      text-decoration: none; padding: 16px 22px;
-      transition: color 0.2s;
-    }
-    .continue-link:hover { color: var(--red); }
-    .continue-link i { font-size: 11px; }
-
-    /* ══════════════════════════════════
-       ORDER SUMMARY SIDEBAR
-    ══════════════════════════════════ */
-    .order-summary {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      position: sticky; top: 82px;
-    }
-
-    .os-title {
-      font-size: 13px; font-weight: 800;
-      letter-spacing: 1.2px; text-transform: uppercase;
-      color: var(--ink);
-      padding: 18px 22px 14px;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .os-body { padding: 18px 22px; }
-
-    /* Per-item rows */
-    .os-item {
-      display: flex; justify-content: space-between;
-      align-items: baseline; gap: 10px;
-      padding: 5px 0;
-      font-size: 13px; color: var(--ink-soft);
-      border-bottom: 1px solid #f3f4f6;
-    }
-    .os-item:last-child { border-bottom: none; }
-    .os-item-name { flex: 1; min-width: 0; line-height: 1.4; }
-    .os-item-val  { font-weight: 700; color: var(--ink); white-space: nowrap; font-size: 13px; }
-
-    /* Total row */
-    .os-total {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 14px 0 16px;
-      font-size: 16px; font-weight: 800; color: var(--ink);
-      border-top: 2px solid var(--border);
-      margin-top: 10px;
-    }
-
-    /* Delivery block */
-    .delivery-block {
-      border: 1px solid var(--border); border-radius: 9px;
-      overflow: hidden; margin-bottom: 20px;
-    }
-    .delivery-header {
-      background: var(--surface);
-      padding: 10px 14px;
-      display: flex; align-items: center; gap: 7px;
-      font-size: 10.5px; font-weight: 700;
-      letter-spacing: 1.2px; text-transform: uppercase;
-      color: var(--muted); border-bottom: 1px solid var(--border);
-    }
-    .delivery-header i { font-size: 11px; }
-    .delivery-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 14px;
-      font-size: 13px; border-bottom: 1px solid var(--border);
-    }
-    .delivery-row:last-of-type { border-bottom: none; }
-    .dzone { display: flex; align-items: center; gap: 8px; color: var(--ink-soft); }
-    .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-    .dot-g { background: #22c55e; }
-    .dot-b { background: #3b82f6; }
-    .dot-s { background: #9ca3af; }
-    .dprice   { font-size: 13px; font-weight: 700; color: var(--ink); }
-    .dnote    { font-size: 12px; font-style: italic; color: var(--muted); }
-    .delivery-callout {
-      background: #f0fdf4;
-      padding: 10px 14px;
-      font-size: 12px; color: #166534; line-height: 1.55;
-      border-top: 1px solid #dcfce7;
-    }
-
-    /* Form */
-    .form-label-sm {
-      display: block;
-      font-size: 12px; font-weight: 600; color: var(--ink-soft);
-      margin-bottom: 5px;
-    }
-    .form-input {
-      width: 100%; padding: 10px 13px;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      font-family: var(--font); font-size: 13.5px; color: var(--ink);
-      background: #fff; outline: none;
-      transition: border-color 0.2s;
-      margin-bottom: 13px;
-    }
-    .form-input:focus { border-color: var(--red); }
-    .form-input::placeholder { color: #9ca3af; }
-
-    /* Pay button */
-    .btn-pay {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      width: 100%; padding: 15px 20px;
-      background: var(--red); color: #fff;
-      border: none; border-radius: 50px;
-      font-family: var(--font);
-      font-size: 14px; font-weight: 700;
-      cursor: pointer; transition: all 0.25s;
-      margin-bottom: 14px; text-decoration: none;
-      letter-spacing: 0.2px;
-    }
-    .btn-pay:hover {
-      background: var(--red-dark); color: #fff;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(211,47,47,0.3);
-    }
-
-    /* Trust badges */
-    .trust-row {
-      display: flex; align-items: center; justify-content: center;
-      gap: 8px; flex-wrap: wrap;
-    }
-    .trust-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      border: 1.5px solid var(--border); border-radius: 50px;
-      padding: 5px 12px;
-      font-size: 11.5px; font-weight: 600; color: var(--ink-soft);
-    }
-    .badge-dot { width: 8px; height: 8px; border-radius: 50%; }
-
-    /* ══════════════════════════════════
-       EMPTY STATE
-    ══════════════════════════════════ */
-    .empty-state {
-      background: #fff; border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 80px 40px; text-align: center;
-    }
-    .empty-icon   { font-size: 52px; color: #d1d5db; margin-bottom: 18px; }
-    .empty-title  {
-      font-family: var(--font-cond);
-      font-size: 28px; font-weight: 800; text-transform: uppercase;
-      color: var(--ink); margin-bottom: 8px;
-    }
-    .empty-sub    { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
-    .btn-shop {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--red); color: #fff; border-radius: 50px;
-      font-size: 13px; font-weight: 700;
-      padding: 13px 32px; text-decoration: none; transition: all 0.25s;
-    }
-    .btn-shop:hover { background: var(--red-dark); color: #fff; transform: translateY(-1px); }
-
-    /* ══════════════════════════════════
-       FOOTER
-    ══════════════════════════════════ */
-    .site-footer { background: #0f172a; padding: 56px 0 0; }
-    .footer-brand-name {
-      font-size: 17px; font-weight: 800; color: #fff; line-height: 1;
-    }
-    .footer-brand-sub {
-      font-size: 8.5px; font-weight: 600; color: var(--red);
-      letter-spacing: 2px; text-transform: uppercase;
-    }
-    .footer-desc {
-      font-size: 13px; color: rgba(255,255,255,0.45);
-      line-height: 1.7; margin: 13px 0 16px;
-    }
-    .footer-contact-item {
-      display: flex; align-items: center; gap: 9px; margin-bottom: 7px;
-    }
-    .footer-contact-item i   { color: var(--red); font-size: 12px; width: 14px; }
-    .footer-contact-item a   {
-      font-size: 13px; color: rgba(255,255,255,0.55);
-      text-decoration: none; transition: color 0.2s;
-    }
-    .footer-contact-item a:hover { color: #fff; }
-    .footer-col-title {
-      font-size: 10.5px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 14px;
-    }
-    .footer-link {
-      display: block; font-size: 13.5px;
-      color: rgba(255,255,255,0.55); text-decoration: none;
-      padding: 4px 0; transition: color 0.2s;
-    }
-    .footer-link:hover { color: #fff; }
-    .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 18px 0; margin-top: 48px;
-      display: flex; align-items: center; justify-content: space-between;
-      font-size: 12px; color: rgba(255,255,255,0.25);
-    }
-    .footer-socials  { display: flex; gap: 7px; }
-    .footer-soc-btn  {
-      width: 34px; height: 34px; border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
-      display: flex; align-items: center; justify-content: center;
-      color: rgba(255,255,255,0.5); font-size: 13px; text-decoration: none;
-      transition: all 0.2s;
-    }
-    .footer-soc-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
-
-    /* ══════════════════════════════════
-       SCROLL TO TOP
-    ══════════════════════════════════ */
-    #scrollTop {
-      position: fixed; bottom: 24px; right: 24px; z-index: 999;
-      width: 42px; height: 42px; border-radius: 50%;
-      background: var(--red); color: #fff; border: none;
-      font-size: 15px; cursor: pointer;
-      box-shadow: 0 4px 14px rgba(211,47,47,0.38);
-      opacity: 0; transform: translateY(10px);
-      transition: all 0.28s;
-      display: flex; align-items: center; justify-content: center;
-    }
-    #scrollTop.show { opacity: 1; transform: translateY(0); }
-
-    /* ══════════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════════ */
-    @media (max-width: 991px) {
-      .nav-links       { display: none; }
-      .order-summary   { position: static; margin-top: 0; }
-    }
-    @media (max-width: 640px) {
-      .cart-col-header { display: none; }
-      .cart-row {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 16px;
-      }
-      .price-cell, .total-cell { text-align: left; }
-      .qty-cell  { justify-content: flex-start; }
-      .remove-cell { justify-content: flex-start; }
-      .page-header h1 { font-size: 26px; }
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        mamboRed: '#ef4444',
+                        mamboDark: '#1e293b',
+                        crimson:'#d32f2f',
+                        charcoal:'#1e293b',
+                        slate:'#64748b'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="cart.css"/>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════
-     FULL SITE NAVBAR
-══════════════════════════════════════════ -->
-<nav class="main-nav">
-  <div class="container nav-inner">
 
-    <!-- Brand -->
-    <a href="../dashboard/index.php" class="brand-wrap">
-      <div class="brand-icon"><i class="fas fa-hammer"></i></div>
-      <div>
-        <div class="brand-text-top">Mambo</div>
-        <div class="brand-text-bot">Hardware</div>
+
+
+<!-- ══════════════════════════════════════════
+     Topbar and Navbar
+══════════════════════════════════════════ -->
+
+
+<div class="top-bar hidden lg:block">
+  <div class="container-fluid px-4">
+    <div class="row align-items-center">
+
+      <div class="col-md-4 top-bar-item">
+        <div class="top-bar-icon"><i class="fas fa-phone-alt"></i></div>
+        <div>
+          <div class="top-bar-label">Call Us Now</div>
+          <div class="top-bar-value">+254798275251</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 top-bar-item">
+        <div class="top-bar-icon"><i class="fas fa-envelope"></i></div>
+        <div>
+          <div class="top-bar-label">Email Us</div>
+          <div class="top-bar-value">info@mambohardware.co.ke</div>
+        </div>
+      </div>
+
+      <div class="col-md-4 d-flex align-items-center justify-content-between ps-4">
+        <div class="top-bar-item" style="border-right:none">
+          <div class="top-bar-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div>
+            <div class="top-bar-label">Find Us</div>
+            <div class="top-bar-value" style="font-size:12px;line-height:1.35">
+              Ruiru Bypass<br>Kamakis, Kiambu, Kenya
+            </div>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- main navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm main-nav sticky-top" id="mainNav">
+  <div class="container-fluid px-2 px-md-4">
+
+    <a class="navbar-brand me-auto"  href="../dashboard/dashboard.php">
+      <div class="brand-wrap">
+        <div class="brand-icon">
+        <img src="../dashboard/images/logoimg.jpg" alt="Mambo Hardware Logo" class="brand-logo-img">
+        </div>
+        <div>
+          <div class="brand-text-top">Mambo</div>
+          <div class="brand-text-bot">Hardware</div>
+        </div>
       </div>
     </a>
-
-    <!-- Centre nav links -->
-    <div class="nav-links">
-      <a href="../dashboard/index.php">Home</a>
-      <a href="../dashboard/index.php#about">About</a>
-      <div class="dropdown">
-        <a href="../dashboard/index.php#shop" class="dropdown-toggle" data-bs-toggle="dropdown">Shop</a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Building Materials</a></li>
-          <li><a class="dropdown-item" href="#">Sanitary Ware</a></li>
-          <li><a class="dropdown-item" href="#">Electrical</a></li>
-          <li><a class="dropdown-item" href="#">Tools</a></li>
-          <li><a class="dropdown-item" href="#">Tiles &amp; Flooring</a></li>
-        </ul>
-      </div>
-      <a href="#">Blog</a>
-      <a href="#">Contact</a>
-    </div>
-
-    <!-- Right utilities -->
-    <div class="nav-utils">
-      <a href="../dashboard/index.php" class="nav-icon-btn" aria-label="Search">
+    
+    <div class="d-flex align-items-center gap-2 order-lg-last">
+    <div class="nav-utilities d-flex align-items-center gap-2">
+      <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
         <i class="fas fa-search"></i>
-      </a>
-      <!-- Cart — active state, we are on this page -->
-      <a href="index.php" class="nav-icon-btn active-cart" aria-label="Cart">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge" id="cartBadge"><?= $count ?: 0 ?></span>
-      </a>
+      </button>
+      <!-- Cart button — clicked to open drawer (handled by cart-drawer.js) -->
       <a href="#" class="btn-admin">
-        <i class="fas fa-user-shield"></i> Admin
+        <i class="fas fa-user-shield"></i> <span class="d-none d-md-inline">Admin</span>
       </a>
     </div>
-
+    <button class="navbar-toggler border-0" type="button"data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
   </div>
+  <div class="collapse navbar-collapse justify-content-center" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
+          <ul class="dropdown-menu border-0 shadow"
+              style="border-radius:10px;min-width:200px;padding:8px;">
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Building Materials</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Sanitary Ware</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Electrical</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tools</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tiles & Flooring</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      </ul>
+    </div>
+
+</div>
 </nav>
-
-
-<!-- ══════════════════════════════════════════
-     PAGE HEADER
-══════════════════════════════════════════ -->
+<!-- page start -->
 <div class="page-header">
   <div class="container">
     <h1>Your Cart</h1>
   </div>
 </div>
-
 
 <!-- ══════════════════════════════════════════
      MAIN CONTENT

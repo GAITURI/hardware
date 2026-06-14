@@ -337,7 +337,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
           <div class="mosaic-main">
             <div style="width:100%;height:100%;background:linear-gradient(135deg,#f4f6f9,#e8edf5);display:flex;align-items:center;justify-content:center;">
               <div style="text-align:center;padding:20px;">
-                <i class="fas fa-tools" style="font-size:72px;color:rgba(0,0,0,0.12);display:block;margin-bottom:16px;"></i>
+                <img src="images/featured.jpg">
                 <div style="font-size:12px;font-weight:600;color:rgba(0,0,0,0.25);letter-spacing:1px;text-transform:uppercase;">Professional Tools</div>
               </div>
             </div>

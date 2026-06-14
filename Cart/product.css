@@ -23,16 +23,18 @@ body {
   overflow-x: hidden;
 }
 
-/* ════════════════════════════════════════
+/*
    TOP UTILITY BAR
-════════════════════════════════════════ */
+*/
+
+
 .top-bar {
   background: #0f172a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   width: 100%;
 }
 @media (max-width: 991px) {
-  navbar > .container-fluid {
+  .navbar > .container-fluid {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
@@ -106,7 +108,7 @@ body {
   color: #fff;
 }
 
-/* ════════════════════════════════════════
+/* 
    MAIN NAVBAR
 ════════════════════════════════════════ */
 .main-nav {
@@ -251,7 +253,12 @@ body {
 }
 
 @media (max-width: 991.98px) {
+  
     .navbar-collapse.collapse:not(.show) {
         display: none !important;
     }
+    .top-bar           { display: none; }
+}
+@media (max-width: 768px) {
+  .top-bar { display: none; }
 }
