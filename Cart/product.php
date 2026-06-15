@@ -11,7 +11,7 @@ if (empty($product_id) || !is_numeric($product_id)) {
 }
 
 // 3. Query the database using the correct variable
-$stmt = $pdo->prepare("SELECT * FROM hardware_items WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM items WHERE item_id = ?");
 $stmt->execute([$product_id]);
 $product = $stmt->fetch();
 
@@ -24,6 +24,35 @@ if (!$product) {
 // Now $product is defined and populated
 $p_name  = htmlspecialchars($product['name']);
 $p_price = floatval($product['price']);
+// 5. Query Related Products (Same material, exclude current item, limit to 4)
+$related_products = [];
+if (!empty($product['material'])) {
+    $related_stmt = $pdo->prepare("SELECT * FROM items WHERE material = ? AND item_id != ? LIMIT 4");
+    $related_stmt->execute([$product['material'], $product_id]);
+    $related_products = $related_stmt->fetchAll();
+}
+
+// Fallback: If less than 3 matching items found, pull general fallback items to maintain layout integrity
+if (count($related_products) < 3) {
+    // Collect already matched IDs so we don't duplicate them
+    $exclude_ids = [$product_id];
+    foreach ($related_products as $rp) {
+        $exclude_ids[] = $rp['item_id'];
+    }
+    
+    // Create placeholders dynamically for the NOT IN clause (e.g., ?, ?)
+    $placeholders = implode(',', array_fill(0, count($exclude_ids), '?'));
+    
+    // Calculate how many extra products we need to hit the max limit of 4
+    $needed_count = 4 - count($related_products);
+    
+    $fallback_stmt = $pdo->prepare("SELECT * FROM items WHERE item_id NOT IN ($placeholders) ORDER BY RAND() LIMIT $needed_count");
+    $fallback_stmt->execute($exclude_ids);
+    $fallback_products = $fallback_stmt->fetchAll();
+    
+    // Merge the fallback rows into your related products list
+    $related_products = array_merge($related_products, $fallback_products);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -164,15 +193,13 @@ $p_price = floatval($product['price']);
     <div class="relative bg-gray-50 border border-gray-100 rounded-lg p-6 flex justify-center items-center overflow-hidden">
         <span class="absolute top-4 left-4 bg-mamboRed text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded shadow-sm z-10">On Sale</span>
         
-        <img src="../dashboard/<?php echo htmlspecialchars($product['image_url']); ?>" 
-             alt="Product Primary Image" 
-             class="w-full aspect-square object-contain max-h-[400px] transition-transform duration-300 hover:scale-105">
+        <img src="../<?php echo htmlspecialchars($product['image_url']); ?>" alt="img should be here" class="w-full aspect-square object-contain max-h-[400px] transition-transform duration-300 hover:scale-105">
     </div>
 
     <div class="flex space-x-3">
         <div class="w-20 h-20 border-2 border-mamboRed rounded p-1 cursor-pointer bg-white overflow-hidden">
-            <img src="../dashboard/<?php echo htmlspecialchars($product['image_url']); ?>"
-                 alt="Thumbnail Preview" 
+            <img src="../<?php echo htmlspecialchars($product['image_url']); ?>"
+                 alt="Thumbnail Preview"
                  class="w-full h-full object-cover">
         </div>
     </div>
@@ -204,7 +231,7 @@ $p_price = floatval($product['price']);
                         <button type="button" onclick="adjustQty(1)" class="w-8 h-8 flex items-center justify-center font-bold text-gray-500 hover:text-mamboRed text-sm">+</button>
                     </div>
                     
-                    <button type="button" onclick="executeAddToCart(<?php echo $product['id']; ?>, <?php echo $product['price']; ?>)" class="bg-mamboRed hover:bg-red-600 text-white font-bold text-xs uppercase px-8 py-3.5 rounded-full flex items-center space-x-2 transition-all shadow-sm">
+                    <button type="button" onclick="executeAddToCart(<?php echo $product['item_id']; ?>, <?php echo $product['price']; ?>)" class="bg-mamboRed hover:bg-red-600 text-white font-bold text-xs uppercase px-8 py-3.5 rounded-full flex items-center space-x-2 transition-all shadow-sm">
                         <span>Add To Cart</span>
                         <i class="fas fa-arrow-right text-[10px]"></i>
                     </button>
@@ -253,18 +280,51 @@ $p_price = floatval($product['price']);
 
         <section class="border-t border-gray-100 pt-10 mb-16">
             <div class="flex space-x-8 border-b border-gray-200 text-xs font-bold tracking-wider mb-6 pb-2">
-                <button class="tab-active pb-2">DESCRIPTION</button>
-                <button class="text-gray-400 hover:text-gray-600 pb-2">SPECIFICATION</button>
-                <button class="text-gray-400 hover:text-gray-600 pb-2">REVIEWS</button>
-            </div>
-            <div class="space-y-4">
-                <h3 class="text-lg font-extrabold text-gray-900 uppercase">Stay Charged Anywhere With Premium Components</h3>
-                <p class="text-gray-600 text-sm leading-relaxed max-w-4xl">
-                    Our performance-tested systems are selected specifically to withstand the dynamic demands of daily operations. Engineered with safety matrices that neutralize power overloads, short-circuit loops, and thermal spikes.
-                </p>
-            </div>
-        </section>
+                <button onClick="switchTab(event, 'tab-description')" class="tab-button border-b-2 border-mamboRed text-gray-900 pb-2 focus:outline-none">DESCRIPTION</button>
+                <button onClick="switchTab(event, 'tab-specification')" class="tab-button border-b-2 border-mamboRed text-gray-600 pb-2 focus:outline-none">Specifications</button>
+                <button onClick="switchTab(event, 'tab-reviews')" class="tab-button border-b-2 border-mamboRed text-gray-600 pb-2 focus:outline-none">Reviews</button>
 
+            </div>
+            <div id="product-tab-content">
+        
+        <div id="tab-description" class="tab-panel space-y-4">
+            <p class="text-gray-600 text-sm leading-relaxed max-w-4xl">
+                <?php echo htmlspecialchars($product['description'] ?? 'No description available.'); ?>
+            </p>
+        </div>
+
+        <div id="tab-specification" class="tab-panel space-y-4 hidden">
+            <h3 class="text-lg font-extrabold text-gray-900 uppercase">Product Specifications</h3>
+            <div class="max-w-xl border border-gray-100 rounded-lg overflow-hidden text-sm">
+                <div class="grid grid-cols-2 bg-gray-50 px-4 py-2.5 border-b border-gray-100">
+                    <span class="text-gray-400 font-medium">Color</span>
+                    <span class="text-gray-800 font-semibold"><?php echo htmlspecialchars($product['color'] ?? 'N/A'); ?></span>
+                </div>
+                <div class="grid grid-cols-2 px-4 py-2.5 border-b border-gray-100">
+                    <span class="text-gray-400 font-medium">Material</span>
+                    <span class="text-gray-800 font-semibold"><?php echo htmlspecialchars($product['material'] ?? 'N/A'); ?></span>
+                </div>
+                <div class="grid grid-cols-2 bg-gray-50 px-4 py-2.5 border-b border-gray-100">
+                    <span class="text-gray-400 font-medium">Seating Capacity</span>
+                    <span class="text-gray-800 font-semibold"><?php echo htmlspecialchars($product['seating_capacity'] ?? 'N/A'); ?> Persons</span>
+                </div>
+                <div class="grid grid-cols-2 px-4 py-2.5">
+                    <span class="text-gray-400 font-medium">Weight</span>
+                    <span class="text-gray-800 font-semibold"><?php echo !empty($product['weight_kg']) ? htmlspecialchars($product['weight_kg']) . ' kg' : 'N/A'; ?></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-reviews" class="tab-panel space-y-4 hidden">
+            <h3 class="text-lg font-extrabold text-gray-900 uppercase">Customer Reviews</h3>
+            <div class="flex items-center space-x-2 text-sm text-gray-500">
+                <div class="flex text-amber-400 text-xs"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                <span>No reviews posted yet for this product.</span>
+            </div>
+        </div>
+
+    </div>
+        </section>
         <section class="border-t border-gray-100 pt-12">
             <div class="flex items-center space-x-3 mb-8">
                 <div class="w-1 h-6 bg-mamboRed"></div>
@@ -272,47 +332,56 @@ $p_price = floatval($product['price']);
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <?php if (empty($related_products)): ?>
-                    <?php for($i = 1; $i <= 4; $i++): ?>
-                    <div class="bg-white border border-gray-100 rounded-lg p-4 space-y-3 relative group shadow-sm">
-                        <span class="absolute top-3 left-3 bg-mamboRed text-white text-[9px] font-bold uppercase px-1.5 py-0.5 rounded">On Sale</span>
-                        <div class="h-44 bg-gray-50 rounded flex items-center justify-center p-4">
-                            <img src="dashboard/images/elec1.jpg" alt="Related Item preview" class="h-full object-contain mix-blend-multiply">
+                <?php foreach($related_products as $rp): 
+                    // Sanitize text parameters to ensure clean custom dataset injection loops
+                    $safeName = htmlspecialchars($rp['name'] ?? '');
+                    $safeDesc = htmlspecialchars($rp['description'] ?? '');
+                    $safeImg  = htmlspecialchars($rp['image_url'] ?? '');
+                    $productUrl = "product.php?id=" . $rp['item_id'];
+                    $materialTag = !empty($rp['material']) ? htmlspecialchars($rp['material']) : 'Hardware';
+                ?>
+                    <div class="bg-white border border-gray-100 rounded-lg p-4 space-y-3 relative shadow-sm cursor-pointer hover:shadow-md transition-shadow group" 
+                         onclick="window.location.href='<?php echo $productUrl; ?>'"
+                         data-id="<?php echo $rp['item_id']; ?>"
+                         data-name="<?php echo $safeName; ?>"
+                         data-price="<?php echo $rp['price']; ?>"
+                         data-image="<?php echo $safeImg; ?>"
+                         data-description="<?php echo $safeDesc; ?>">
+                        
+                        <span class="absolute top-3 left-3 bg-mamboRed text-white text-[9px] font-bold uppercase px-1.5 py-0.5 rounded z-10">On Sale</span>
+                        
+                        <div class="h-44 bg-gray-50 rounded flex items-center justify-center p-4 overflow-hidden">
+                            <img src="../<?php echo $safeImg; ?>" 
+                                 alt="<?php echo $safeName; ?>" 
+                                 class="h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                                 onerror="this.onerror=null; this.src='../dashboard/images/logoimg.jpg';">
                         </div>
+                        
                         <div class="space-y-1">
-                            <div class="flex text-amber-400 text-[10px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <h4 class="font-bold text-xs text-gray-800 truncate uppercase">Alternative Model Core Wire</h4>
+                            <div class="flex text-amber-400 text-[10px]">
+                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                            </div>
+                            <h4 class="font-bold text-xs text-gray-800 truncate uppercase">
+                                <?php echo $safeName; ?>
+                            </h4>
                             <div class="flex items-baseline space-x-2 text-xs">
-                                <span class="font-bold text-mamboRed">KES 2,500</span>
-                                <span class="text-[10px] text-gray-400 line-through">KES 3,000</span>
+                                <span class="font-bold text-mamboRed">KES <?php echo number_format($rp['price']); ?></span>
+                                <span class="text-[9px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded ml-auto">
+                                    <?php echo $materialTag; ?>
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <?php endfor; ?>
-                <?php else: ?>
-                    <?php foreach($related_products as $rp): ?>
-                    <div class="bg-white border border-gray-100 rounded-lg p-4 space-y-3 relative shadow-sm cursor-pointer" onclick="window.location.href='product.php?id=<?php echo $rp['id']; ?>'">
-                        <div class="h-44 bg-gray-50 rounded flex items-center justify-center p-4">
-                            <img src="<?php echo htmlspecialchars($rp['image_url']); ?>" alt="Related Product" class="h-full object-contain">
-                        </div>
-                        <div class="space-y-1">
-                            <div class="flex text-amber-400 text-[10px]"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            <h4 class="font-bold text-xs text-gray-800 truncate uppercase"><?php echo htmlspecialchars($rp['name']); ?></h4>
-                            <div class="text-xs font-bold text-mamboRed">KES <?php echo number_format($rp['price']); ?></div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </div>
         </section>
-
     </main>
 
     <footer class="bg-gray-900 text-gray-400 text-xs py-12 mt-20 border-t border-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="space-y-3">
-                <span class="text-white font-extrabold text-sm tracking-widest uppercase">Mambo Hardware</span>
-                <p class="leading-relaxed">Your one-stop terminal for industrial-grade construction materials, tools, electrical suites, and premium interior accessories.</p>
+                <span class="text-white font-extrabold text-sm tracking-widest uppercase">Mambo Outdoor</span>
+                <p class="leading-relaxed">Your one-stop terminal for quality and luxury products</p>
             </div>
             <div>
                 <h5 class="text-white font-bold mb-3 uppercase tracking-wider">Quick Directives</h5>
@@ -330,53 +399,15 @@ $p_price = floatval($product['price']);
             </div>
             <div>
                 <h5 class="text-white font-bold mb-3 uppercase tracking-wider">Compliance Matrix</h5>
-                <p class="leading-relaxed">Protected under standard encryption layers. Authorized dealer of certified hardware modules across East Africa.</p>
+                <p class="leading-relaxed">Authorized Outdoor Dealers.</p>
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-[11px]">
-            &copy; 2026 Mambo Hardware / Oasis Technologies. All rights reserved.
+            &copy; 2026 Mambo Hardware . All rights reserved.
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function adjustQty(amount) {
-            const qtyInput = document.getElementById('quantity-widget');
-            let currentQty = parseInt(qtyInput.value) || 1;
-            currentQty += amount;
-            if (currentQty < 1) currentQty = 1;
-            qtyInput.value = currentQty;
-        }
+    <script src="product.js?v=2"></script>
 
-        async function executeAddToCart(productId, productPrice) {
-            const quantity = parseInt(document.getElementById('quantity-widget').value) || 1;
-            
-            try {
-                const response = await fetch('../api/cart_add.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        product_id:parseInt(productId),
-                        price: parseFloat(productPrice) || 0,
-                        quantity: quantity
-                    })
-                });
-                
-                const outcome = await response.json();
-                if (outcome.status === 'success') {
-                    // alert('Items registered successfully to your cart session.');
-                    window.location.href = 'cart.php';
-                    // If you have a global update counter implementation inside cart-drawer.js, invoke it here
-                    const cartBadge = document.querySelector('.relative.cursor-pointer span');
-                    if (cartBadge) {
-                             cartBadge.textContent = outcome.new_total_count;
-                    }
-                 } else {
-                    console.error('API Error Response:', outcome.message);
-                }
-            } catch (err) {
-                console.error('XHR execution error:', err);
-            }
-        }
-    </script>
 </body>
 </html>

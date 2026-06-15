@@ -11,7 +11,7 @@ session_start();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mambo Hardware - The Best Hardware Shop in Ruiru</title>
+  <title>Mambo Hardware - Outdoor Product Shops in Ruiru</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
@@ -51,7 +51,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         <div class="top-bar-icon"><i class="fas fa-envelope"></i></div>
         <div>
           <div class="top-bar-label">Email Us</div>
-          <div class="top-bar-value">info@mambohardware.co.ke</div>
+          <div class="top-bar-value">info@outdoor.co.ke</div>
         </div>
       </div>
 
@@ -89,7 +89,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         </div>
         <div>
           <div class="brand-text-top">Mambo</div>
-          <div class="brand-text-bot">Hardware</div>
+          <div class="brand-text-bot">Outdoors</div>
         </div>
       </div>
     </a>
@@ -107,11 +107,11 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
           <ul class="dropdown-menu border-0 shadow"
               style="border-radius:10px;min-width:200px;padding:8px;">
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Building Materials</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Sanitary Ware</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Electrical</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tools</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tiles & Flooring</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Outdoor Chairs</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Outdoor Sets</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Outdoor Tables</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Grass Mats</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Swings</a></li>
           </ul>
         </li>
         <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
@@ -137,44 +137,44 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 </nav>
 
 
-<!-- ════════════════════════════════════════
+<!--
      TICKER BAR
-════════════════════════════════════════ -->
+-->
 <div class="ticker-bar">
   <div class="ticker-inner" id="ticker">
-    <span class="ticker-item"><span class="ticker-dot"></span>Premium Wood Products</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Sanitary Products</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Kitchen &amp; Accessories</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Hardware Supplies</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Tiles &amp; Flooring</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Premium Outdoor Furniture</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Quality Hammocks</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Outdoor &amp; Accessories</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Handcrafted Furniture </span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Imported &amp; Swings</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Free Delivery on Orders Over KES 5,000</span>
     <!-- duplicate for seamless loop -->
-    <span class="ticker-item"><span class="ticker-dot"></span>Premium Wood Products</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Sanitary Products</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Kitchen &amp; Accessories</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Hardware Supplies</span>
-    <span class="ticker-item"><span class="ticker-dot"></span>Tiles &amp; Flooring</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Premium Outdoor Furniture</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Quality Hammocks</span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Outdoor &amp; Accessories</span>
+    <span class="ticker-item"><span class="ticker-dot"></span>Handcrafted Furniture </span>
+    <span class="ticker-item"><span class="ticker-dot"></span> Imported &amp; Swings</span>
     <span class="ticker-item"><span class="ticker-dot"></span>Free Delivery on Orders Over KES 5,000</span>
   </div>
 </div>
 
 
-<!-- ════════════════════════════════════════
+<!-- 
      HERO SECTION
-════════════════════════════════════════ -->
+-->
 <section class="hero-section">
   <div class="container">
-    <div class="row g-3">
+    <div class="row g-4">
 
       <div class="col-lg-8">
-        <div class="hero-main" style="background:#0f172a;">
+        <div class="hero-main h-100" >
           <img src="images/bowl1.jpg" id="heroImage" class="hero-img active"
-               style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity 0.5s ease;">
+          style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity 0.5s ease;" alt="img1">
           <div class="hero-overlay"
                style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,23,42,0.9) 0%,rgba(15,23,42,0.4) 60%,transparent 100%);"></div>
           <div class="hero-content" id="heroContent">
-            <div class="hero-tag">Quality Hardware Materials</div>
-            <div class="hero-title">Steel &amp;<br>Wood</div>
+            <div class="hero-tag">Imported Swings </div>
+            <div class="hero-title">Handcrafted &amp;<br>Projects</div>
             <div class="hero-sub"></div>
             <a href="#shop" class="btn-hero">Shop Now &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
           </div>
@@ -190,23 +190,19 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
       <div class="col-lg-4">
         <div class="hero-side h-100">
           <div class="side-card">
-            <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a2a4e,#2d4a8e);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-              <i class="fas fa-layer-group" style="font-size:72px;color:rgba(255,255,255,0.2);"></i>
-            </div>
+           <img src="../images/quality set.jpg" alt="Quality Seats">
             <div class="side-card-overlay"></div>
             <div class="side-card-content">
-              <div class="side-card-title">Premium Boards</div>
-              <div class="side-card-sub">Verified premium quality</div>
+              <div class="side-card-title">Quality Sets</div>
+              <div class="side-card-sub">Beautiful Outdoor Sets</div>
             </div>
           </div>
           <div class="side-card">
-            <div style="width:100%;height:100%;background:linear-gradient(135deg,#2d1b4e,#4e2d7a);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-              <i class="fas fa-industry" style="font-size:60px;color:rgba(255,255,255,0.2);"></i>
-            </div>
+            <img src="../images/handcrafted.jpg" alt="Handcrafted Products" >
             <div class="side-card-overlay"></div>
             <div class="side-card-content">
-              <div class="side-card-title">Building Cement</div>
-              <div class="side-card-sub">From KES 3,500</div>
+              <div class="side-card-title">Handcrafted Products</div>
+              <div class="side-card-sub">From KES 10,500</div>
             </div>
           </div>
         </div>
@@ -226,7 +222,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
             <i class="fas fa-hard-hat" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
           </div>
           <div class="cat-card-overlay"></div>
-          <div class="cat-card-label">Construction Material</div>
+          <div class="cat-card-label">Handcrafted Furniture</div>
         </div>
       </div>
       <div class="col-md-4">
@@ -235,7 +231,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
             <i class="fas fa-tint" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
           </div>
           <div class="cat-card-overlay"></div>
-          <div class="cat-card-label">Water Products</div>
+          <div class="cat-card-label">Rattan Products</div>
         </div>
       </div>
       <div class="col-md-4">
@@ -244,7 +240,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
             <i class="fas fa-bolt" style="font-size:64px;color:rgba(255,255,255,0.15);"></i>
           </div>
           <div class="cat-card-overlay"></div>
-          <div class="cat-card-label">Electrical Components</div>
+          <div class="cat-card-label"> Luxury Furniture</div>
         </div>
       </div>
     </div>
@@ -280,7 +276,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
     </div>
     <div class="text-center mt-5">
       <a href="#" class="btn-hero" style="display:inline-flex;align-items:center;gap:10px;">
-        View All Products &nbsp;<i class="fas fa-arrow-right fa-xs"></i>
+        View Full Showroom &nbsp;<i class="fas fa-arrow-right fa-xs"></i>
       </a>
     </div>
   </div>
@@ -306,10 +302,9 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
     </div>
     <div class="col-lg-6 about-right">
       <div class="about-eyebrow">About Us</div>
-      <h2 class="about-title">ELEVATE YOUR BUILD.<br>CONSTRUCT WITH CONFIDENCE.</h2>
+      <h2 class="about-title">ELEVATE YOUR Garden.<br>The Boutique Premium Standards.</h2>
       <p class="about-body">
-        We supply quality building materials, tools, and hardware products trusted by professionals and homeowners alike.
-        From construction essentials to finishing supplies, we make it easy to get durable products at competitive prices.
+      We craft and procure premium woven Rattan frameworks, synthetic composite daybeds, and commercial grade timber bar configurations built to withstand tropical conditions without shedding luxury fidelity.
       </p>
       <a href="#" class="btn-learn">Learn More &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
     </div>
@@ -365,9 +360,9 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 </section>
 
 
-<!-- ════════════════════════════════════════
+<!--
      CONSTRUCTION HELP
-════════════════════════════════════════ -->
+ -->
 <section class="repair-section">
   <div class="container">
     <div class="row align-items-center g-5">

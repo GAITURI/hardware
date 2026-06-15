@@ -18,14 +18,14 @@ function renderStars(n) {
 
 
 function buildCard(p) {
-  console.log("Mambo Hardware Product Data Object:", p);
+  console.log("Mellar Outdoors Product Payload Object:", p);
   const color = p.color || '#1e293b';
 
   // Escape for HTML attributes
   const safeName = String(p.name        || '').replace(/"/g, '&quot;');
   const safeDesc = String(p.description || '').replace(/"/g, '&quot;');
   const safeImg  = String(p.image_url || '').replace(/"/g, '&quot;'); 
-  const imgPath = 'images/' + p.image_url.replace('images/', '');
+  const imgPath = '../' + p.image_url.replace(/^\/+/, '');
   const resolvedId = p.id;
   const productUrl = `../cart/product.php?id=${resolvedId}`;
   
@@ -56,9 +56,9 @@ function buildCard(p) {
           </div>
 
           <div class="price-row">
-            <span class="price-now">KES ${Number(p.price).toLocaleString('en-KE')}</span>
+            <span class="price-now">KSh ${Number(p.price).toLocaleString('en-KE')}</span>
             ${p.oldPrice
-              ? `<span class="price-old">KES ${Number(p.oldPrice).toLocaleString('en-KE')}</span>`
+              ? `<span class="price-old">KSh ${Number(p.oldPrice).toLocaleString('en-KE')}</span>`
               : ''}
           </div>
            <button class="hover-cart-btn text-center text-decoration-none border-0" 
@@ -80,8 +80,8 @@ async function initDashboard() {
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
 
-    const latest   = data.filter(p => p.category === 'latest');
-    const hotDeals = data.filter(p => p.category === 'hotdeal');
+    const latest   = data.filter(p => p.is_latest === true);
+    const hotDeals = data.filter(p => p.onSale === true);
 
     const productsGrid = document.getElementById('productsGrid');
     const hotdealsGrid = document.getElementById('hotdealsGrid');
@@ -127,8 +127,8 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 const slides = [
   { tag: 'New Stock',           title: 'Interior\nProducts',    sub: '',  btn: 'Shop Now',  img: 'images/elec1.jpg'  },
   { tag: 'Latest Arrival',      title: 'Shower\nComponents',    sub: '',  btn: 'View More', img: 'images/bowl1.jpg'  },
-  { tag: 'Premium Electrical',  title: 'Electrical\nProducts',  sub: '',  btn: 'View More', img: 'images/elec2.jpg'  },
-  { tag: 'Tools & Accessories', title: 'POWER\nTools',          sub: '',  btn: 'Shop Now',  img: 'images/tool5.jpg'  },
+  { tag: 'Premium Products',  title: 'Electrical\nProducts',  sub: '',  btn: 'View More', img: 'images/elec2.jpg'  },
+  { tag: 'Latest Outdoor Units', title: 'POWER\nTools',          sub: '',  btn: 'Shop Now',  img: 'images/tool5.jpg'  },
 ];
 
 let currentSlide = 0;

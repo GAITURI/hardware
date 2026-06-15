@@ -6,7 +6,7 @@
 
 // 1. Setup connection coordinates
 $host    = 'localhost';         // Change to your server hostname if live
-$db      = 'hardware_db';    // Your database schema name
+$db      = 'mellar_outdoors';    // Your database schema name
 $user    = 'root';              // Database username
 $pass    = '';                  // Database password
 $charset = 'utf8mb4';           // Universal character set for security and emojis
@@ -34,5 +34,9 @@ try {
     // 5. Secure Error Management
     // For local development, this helps you debug immediately.
     // In live production, replace this with: error_log($e->getMessage()); die("Service temporarily unavailable.");
+    error_log("Database connection error: " . $e->getMessage());
     throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    header('Content-Type: application/json', true, 500);
+    echo json_encode(['error' => 'Database service temporarily unavailable.']);
+    exit;
 }

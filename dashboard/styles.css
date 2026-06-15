@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   MAMBO HARDWARE — Main Stylesheet
+   Mellar Outdoors — Main Stylesheet
    Stack: Bootstrap 5 + Tailwind CSS + Custom CSS
    Author: Oasis Technologies
 ═══════════════════════════════════════════════════════════ */
@@ -400,20 +400,25 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  height: 100%;
 }
 .side-card {
   border-radius: 12px;
   overflow: hidden;
   position: relative;
   flex: 1;
-  min-height: 190px;
+  min-height: 0;
   cursor: pointer;
   background: #111;
 }
 .side-card img {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   object-fit: cover;
+  justify-content: center;
+  display: flex;
+  align-items: center;
   transition: transform 0.5s ease;
 }
 .side-card:hover img {
@@ -441,9 +446,9 @@ body {
   color: rgba(255, 255, 255, 0.6);
 }
 
-/* ════════════════════════════════════════
+/* 
    CATEGORIES SECTION
-════════════════════════════════════════ */
+*/
 .categories-section {
   padding: 56px 0;
   background: #fff;
@@ -527,7 +532,7 @@ body {
   border-radius: 12px;
   overflow: hidden;
   position: relative;
-  height: 200px;
+  height: 190px;
   cursor: pointer;
 }
 .cat-card img {
