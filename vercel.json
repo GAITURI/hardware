@@ -7,11 +7,20 @@
     },
     "routes": [
       {
-        "handle": "filesystem"
+        "src": "/(images|css|js)/(.*)",
+        "dest": "/$1/$2"
       },
       {
         "src": "/$",
         "dest": "/dashboard.php"
+      },
+      {
+        "src": "/cart",
+        "dest": "/cart/cart.php"
+      },
+      {
+        "src": "/product",
+        "dest": "/cart/product.php"
       }
     ]
   }
