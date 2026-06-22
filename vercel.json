@@ -1,15 +1,23 @@
 {
-    "functions": {
-      "api/**/*.php": {
-        "runtime": "vercel-php@0.7.1"
+    "version": 2,
+    "builds": [
+      {
+        "src": "**/*.php",
+        "use": "vercel-php@0.7.1"
       },
-      "cart/**/*.php": {
-        "runtime": "vercel-php@0.7.1"
+      {
+        "src": "images/**/*",
+        "use": "@vercel/static"
       },
-      "*.php": {
-        "runtime": "vercel-php@0.7.1"
+      {
+        "src": "css/**/*",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "js/**/*",
+        "use": "@vercel/static"
       }
-    },
+    ],
     "routes": [
       {
         "src": "/(images|css|js)/(.*)",
