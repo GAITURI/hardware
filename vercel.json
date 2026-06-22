@@ -1,0 +1,23 @@
+{
+    "functions": {
+      "api/**/*.php": {
+        "runtime": "vercel-php@0.7.1"
+      },
+      "cart/**/*.php": {
+        "runtime": "vercel-php@0.7.1"
+      },
+      "*.php": {
+        "runtime": "vercel-php@0.7.1"
+      }
+    },
+    "routes": [
+      {
+        "src": "/(images|css|js)/(.*)",
+        "dest": "/$1/$2"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/$1"
+      }
+    ]
+  }
