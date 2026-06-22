@@ -59,7 +59,7 @@ if (count($related_products) < 3) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($product['name']); ?> — Mambo Hardware</title>
+    <title><?php echo htmlspecialchars($product['name']); ?> — Mambo Outdoor</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -103,7 +103,7 @@ if (count($related_products) < 3) {
         <div class="top-bar-icon"><i class="fas fa-envelope"></i></div>
         <div>
           <div class="top-bar-label">Email Us</div>
-          <div class="top-bar-value">info@mambohardware.co.ke</div>
+          <div class="top-bar-value">info@mamboOutdoor.co.ke</div>
         </div>
       </div>
 
@@ -136,11 +136,11 @@ if (count($related_products) < 3) {
     <a class="navbar-brand me-auto"  href="../dashboard/dashboard.php">
       <div class="brand-wrap">
         <div class="brand-icon">
-        <img src="../dashboard/images/logoimg.jpg" alt="Mambo Hardware Logo" class="brand-logo-img">
+        <img src="../images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
         </div>
         <div>
           <div class="brand-text-top">Mambo</div>
-          <div class="brand-text-bot">Hardware</div>
+          <div class="brand-text-bot">Outdoor</div>
         </div>
       </div>
     </a>
@@ -338,7 +338,7 @@ if (count($related_products) < 3) {
                     $safeDesc = htmlspecialchars($rp['description'] ?? '');
                     $safeImg  = htmlspecialchars($rp['image_url'] ?? '');
                     $productUrl = "product.php?id=" . $rp['item_id'];
-                    $materialTag = !empty($rp['material']) ? htmlspecialchars($rp['material']) : 'Hardware';
+                    $materialTag = !empty($rp['material']) ? htmlspecialchars($rp['material']) : 'Outdoor';
                 ?>
                     <div class="bg-white border border-gray-100 rounded-lg p-4 space-y-3 relative shadow-sm cursor-pointer hover:shadow-md transition-shadow group" 
                          onclick="window.location.href='<?php echo $productUrl; ?>'"
@@ -394,7 +394,7 @@ if (count($related_products) < 3) {
                 <h5 class="text-white font-bold mb-3 uppercase tracking-wider">Fulfillment Coordinates</h5>
                 <ul class="space-y-2">
                     <li>Ruiru,Kamulu Kenya</li>
-                    <li>Support: dispatch@mambohardware.co.ke</li>
+                    <li>Support: dispatch@mamboOutdoor.co.ke</li>
                 </ul>
             </div>
             <div>
@@ -403,11 +403,11 @@ if (count($related_products) < 3) {
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-gray-800 text-center text-[11px]">
-            &copy; 2026 Mambo Hardware . All rights reserved.
+            &copy; 2026 Mambo Outdoor . All rights reserved.
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="product.js?v=2"></script>
+    <script src="cart.js"></script> <script src="product.js?v=2"></script>                    
 
 </body>
 </html>

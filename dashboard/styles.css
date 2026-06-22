@@ -1231,6 +1231,7 @@ body {
    RESPONSIVE BREAKPOINTS
 ════════════════════════════════════════ */
 @media (max-width: 768px) {
+  .hero-main         { display: none; }
   .hero-title        { font-size: 34px; }
   .hero-content      { padding: 24px; }
   .about-right       { padding: 40px 28px; }

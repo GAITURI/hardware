@@ -1,5 +1,6 @@
 /**
  * 1. Product Quantity Modifier Handler
+ * 
  */
 function adjustQty(amount) {
     const qtyInput = document.getElementById('quantity-widget');
@@ -73,7 +74,7 @@ function buildCard(p) {
                 <img src="${imgPath}" 
                      alt="${safeName}" 
                      class="h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                     onerror="this.onerror=null; this.src='../dashboard/images/logoimg.jpg';">
+                     onerror="this.onerror=null; this.src='../images/logoimg.jpg';">
             </div>
             
             <div class="space-y-1">
@@ -153,16 +154,40 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * 5. Direct Execution Framework Callback Wrapper
  */
-function executeAddToCart(itemId, itemPrice) {
+async function executeAddToCart(itemId, itemPrice) {
     const qtyInput = document.getElementById('quantity-widget');
     const quantity = qtyInput ? parseInt(qtyInput.value) || 1 : 1;
     
     console.log("Dispatched direct action execution update to active cart module:", { itemId, itemPrice, quantity });
     
+    // Check if our cart drawer/helper script is loaded globally
     if (typeof updateCartBackend === 'function') {
-        updateCartBackend(itemId, quantity, itemPrice);
+        try {
+            // Await the backend database operations
+            const outcome = await updateCartBackend(itemId, quantity, itemPrice);
+            
+            // Check the structured JSON response status from the server
+            if (outcome && (outcome.status === 'success' || outcome.status ==='ok')) {
+                // Update the navigation utility cart counts if elements exist
+                const cartBadge = document.getElementById('cartBadge') || document.querySelector('.relative.cursor-pointer span');
+                if (cartBadge) {
+                    cartBadge.textContent = outcome.new_total_count || outcome.count || quantity;
+                }
+                
+                // Smoothly redirect directly to the checkout page layout
+                window.location.href = 'cart.php';
+            } else {
+                console.error('API Error Response:', outcome ? outcome.message : 'Unknown error');
+                // Fallback redirect if it saved but returned weird formatting
+                window.location.href = 'cart.php';
+            }
+        } catch (error) {
+            console.error("Cart synchronization operation failed:", error);
+            alert("We ran into an issue updating your cart. Please try again.");
+        }
     } else {
-        // Fallback injection block for manual handling if missing cart drawer references
-        alert(`Item successfully updated in background. Quantity: ${quantity}`);
+        // Fallback approach if cart scripts fail to load in window context
+        console.warn("updateCartBackend interface reference missing. Performing manual fallback redirect.");
+        window.location.href = 'cart.php';
     }
 }

@@ -11,7 +11,7 @@ session_start();
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mambo Hardware - Outdoor Product Shops in Ruiru</title>
+  <title>Mambo Outdoor- Outdoor Product Shops in Ruiru</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
@@ -85,7 +85,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
     <a class="navbar-brand me-auto"  href="dashboard.php">
       <div class="brand-wrap">
         <div class="brand-icon">
-        <img src="images/logoimg.jpg" alt="Mambo Hardware Logo" class="brand-logo-img">
+        <img src="../images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
         </div>
         <div>
           <div class="brand-text-top">Mambo</div>
@@ -159,7 +159,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 </div>
 
 
-<!-- 
+<!--
      HERO SECTION
 -->
 <section class="hero-section">
@@ -168,13 +168,13 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 
       <div class="col-lg-8">
         <div class="hero-main h-100" >
-          <img src="images/bowl1.jpg" id="heroImage" class="hero-img active"
+          <img src="../images/hero1.png" id="heroImage" class="hero-img active"
           style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity 0.5s ease;" alt="img1">
           <div class="hero-overlay"
                style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,23,42,0.9) 0%,rgba(15,23,42,0.4) 60%,transparent 100%);"></div>
           <div class="hero-content" id="heroContent">
-            <div class="hero-tag">Imported Swings </div>
-            <div class="hero-title">Handcrafted &amp;<br>Projects</div>
+            <div class="hero-tag">Handmade Products</div>
+            <div class="hero-title">Imported &amp;<br>Products</div>
             <div class="hero-sub"></div>
             <a href="#shop" class="btn-hero">Shop Now &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
           </div>
@@ -368,11 +368,10 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
     <div class="row align-items-center g-5">
       <div class="col-lg-5 repair-left">
         <div class="repair-tag">Construction Help</div>
-        <h2 class="repair-title">CONSTRUCTION PROBLEM?<br>CONSULT US</h2>
+        <h2 class="repair-title">Design PROBLEM?<br>CONSULT US</h2>
         <p class="repair-body">
-          Got a construction problem? We are here to help with reliable hardware and quality building materials
-          for every stage of your project — from foundation to finishing.
-        </p>
+          Are you Having trouble designing your outdoor space consult us.
+          We have an experienced team to help you design to your needs.
         <a href="#" class="btn-book">Book a Session &nbsp;<i class="fas fa-arrow-right fa-xs"></i></a>
       </div>
       <div class="col-lg-7">
@@ -407,12 +406,12 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
           <div class="brand-icon"><i class="fas fa-hammer"></i></div>
           <div>
             <div class="footer-logo-text">MAMBO</div>
-            <div class="footer-logo-sub">Hardware</div>
+            <div class="footer-logo-sub">Outdoors</div>
           </div>
         </div>
         <p class="footer-desc">
-          Ruiru's trusted hardware store. Quality building materials, tools, sanitary ware,
-          and electrical supplies — all under one roof.
+          Ruiru's trusted Outdoor store. Quality Outdoor Products, Chairs, Tables,
+          and rattan supplies — all under one roof.
         </p>
         <div class="footer-social">
           <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
@@ -432,11 +431,11 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
       </div>
       <div class="col-lg-2 col-6">
         <div class="footer-heading">Categories</div>
-        <a class="footer-link" href="#">Building Materials</a>
-        <a class="footer-link" href="#">Kitchen Components</a>
-        <a class="footer-link" href="#">Tools</a>
-        <a class="footer-link" href="#">Wood &amp; Accessories</a>
-        <a class="footer-link" href="#">Steel</a>
+        <a class="footer-link" href="#">Outdoor Sets</a>
+        <a class="footer-link" href="#">Swings and Hammocks</a>
+        <a class="footer-link" href="#">Quality Rattan Sets</a>
+        <a class="footer-link" href="#">Outdoor &amp; Accessories</a>
+        <a class="footer-link" href="#">Green Mats</a>
       </div>
       <div class="col-lg-4">
         <div class="footer-heading">Contact Us</div>
@@ -450,12 +449,12 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         </div>
         <div class="footer-contact-item">
           <i class="fas fa-envelope footer-contact-icon"></i>
-          <div class="footer-contact-text">info@mambohardware.co.ke</div>
+          <div class="footer-contact-text">info@mambooutdoors.co.ke</div>
         </div>
       </div>
     </div>
     <div class="footer-bottom">
-      <div class="footer-copy">&copy; 2026 Mambo Hardware. All rights reserved.</div>
+      <div class="footer-copy">&copy; 2026 MamboOutdoors. All rights reserved.</div>
       <div class="footer-copy">Built with Trust</div>
     </div>
   </div>

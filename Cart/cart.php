@@ -9,7 +9,7 @@ require_once __DIR__ . '/../db_connection.php';
 require_once __DIR__ . '/../api/cart_helper.php';
 
 $cartData = getCartData($pdo);
-$cart     = $cartData['items'];
+$items     = $cartData['items'];
 $subtotal = $cartData['subtotal'];
 $count    = $cartData['count'];
 ?>
@@ -105,7 +105,7 @@ $count    = $cartData['count'];
     <a class="navbar-brand me-auto"  href="../dashboard/dashboard.php">
       <div class="brand-wrap">
         <div class="brand-icon">
-        <img src="../dashboard/images/logoimg.jpg" alt="Mambo Hardware Logo" class="brand-logo-img">
+        <img src="../images/logoimg.jpg" alt="Mambo Hardware Logo" class="brand-logo-img">
         </div>
         <div>
           <div class="brand-text-top">Mambo</div>
@@ -120,6 +120,12 @@ $count    = $cartData['count'];
         <i class="fas fa-search"></i>
       </button>
       <!-- Cart button — clicked to open drawer (handled by cart-drawer.js) -->
+      <a href="cart.php" class="nav-icon-btn relative position-relative" aria-label="View Cart">
+    <i class="fas fa-shopping-cart"></i>
+    <span id="cartBadge" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px; padding: 4px 6px;">
+      <?= $count ?>
+    </span>
+  </a>
       <a href="#" class="btn-admin">
         <i class="fas fa-user-shield"></i> <span class="d-none d-md-inline">Admin</span>
       </a>
@@ -163,7 +169,7 @@ $count    = $cartData['count'];
 <main class="cart-page">
   <div class="container">
 
-  <?php if (empty($cart)): ?>
+  <?php if (empty($items)): ?>
   <!-- ── EMPTY STATE ── -->
   <div class="empty-state">
     <div class="empty-icon"><i class="fas fa-shopping-cart"></i></div>
@@ -194,7 +200,7 @@ $count    = $cartData['count'];
 
         <!-- Rows -->
         <div id="cartBody">
-        <?php foreach ($cart as $item): ?>
+        <?php foreach ($items as $item): ?>
           <div class="cart-row" data-id="<?= htmlspecialchars($item['id']) ?>">
 
             <!-- PRODUCT -->
@@ -252,7 +258,7 @@ $count    = $cartData['count'];
         </div>
 
         <!-- Continue shopping -->
-        <a href="../dashboard/index.php" class="continue-link">
+        <a href="../dashboard/dashboard.php" class="continue-link">
           <i class="fas fa-arrow-left"></i> Continue Shopping
         </a>
 
@@ -271,7 +277,7 @@ $count    = $cartData['count'];
 
           <!-- Per-item list -->
           <div id="osSummaryItems">
-          <?php foreach ($cart as $item): ?>
+          <?php foreach ($items as $item): ?>
             <div class="os-item" id="os-<?= $item['id'] ?>">
               <span class="os-item-name">
                 <?= htmlspecialchars($item['name']) ?>
@@ -445,117 +451,6 @@ $count    = $cartData['count'];
      SCRIPTS
 ══════════════════════════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-/* ── CONFIG ── */
-const API = '../api';
-
-/* ── SCROLL TO TOP ── */
-window.addEventListener('scroll', () => {
-  document.getElementById('scrollTop').classList.toggle('show', scrollY > 300);
-});
-
-/* ── HELPERS ── */
-function fmt(n) {
-  return 'KES ' + Number(n).toLocaleString('en-KE', { maximumFractionDigits: 0 });
-}
-
-/* ── UPDATE QTY ── */
-async function updateQty(id, newQty) {
-  const res  = await fetch(`${API}/cart_update.php`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ id, qty: newQty }),
-  });
-  const data = await res.json();
-
-  if (newQty <= 0) {
-    removeRow(id);
-    if (data.cart.length === 0) showEmpty();
-  } else {
-    /* update qty badge */
-    const qtyEl = document.getElementById('qty-' + id);
-    if (qtyEl) qtyEl.textContent = newQty;
-
-    /* update stepper button handlers inline */
-    const row = document.querySelector(`.cart-row[data-id="${id}"]`);
-    if (row) {
-      const [dec, inc] = row.querySelectorAll('.qty-stepper button');
-      dec.setAttribute('onclick', `updateQty('${id}',${newQty - 1})`);
-      inc.setAttribute('onclick', `updateQty('${id}',${newQty + 1})`);
-    }
-
-    /* update line total in table */
-    const item = data.cart.find(i => String(i.id) === String(id));
-    if (item) {
-      const lineEl = document.getElementById('line-' + id);
-      if (lineEl) lineEl.textContent = fmt(item.price * item.qty);
-
-      /* update sidebar */
-      const osQty = document.getElementById('os-qty-' + id);
-      const osVal = document.getElementById('os-val-' + id);
-      if (osQty) osQty.textContent = item.qty;
-      if (osVal) osVal.textContent = fmt(item.price * item.qty);
-    }
-  }
-  refreshTotals(data);
-}
-
-/* ── REMOVE ITEM ── */
-async function removeItem(id) {
-  const res  = await fetch(`${API}/cart_remove.php`, {
-    method:  'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ id }),
-  });
-  const data = await res.json();
-  removeRow(id);
-  refreshTotals(data);
-  if (data.cart.length === 0) showEmpty();
-}
-
-/* ── DOM HELPERS ── */
-function removeRow(id) {
-  document.querySelector(`.cart-row[data-id="${id}"]`)?.remove();
-  document.getElementById('os-' + id)?.remove();
-}
-
-function refreshTotals(data) {
-  const subtotal = data.subtotal ?? data.cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const count    = data.total_items ?? data.cart.reduce((s, i) => s + i.qty, 0);
-
-  const osTotal = document.getElementById('osTotal');
-  if (osTotal) osTotal.textContent = fmt(subtotal);
-
-  const badge = document.getElementById('cartBadge');
-  if (badge) badge.textContent = count;
-}
-
-function showEmpty() {
-  document.querySelector('.row.g-4')?.remove();
-  document.querySelector('main .container').innerHTML = `
-    <div class="empty-state">
-      <div class="empty-icon"><i class="fas fa-shopping-cart"></i></div>
-      <div class="empty-title">Your cart is empty</div>
-      <p class="empty-sub">Browse our catalogue and add something you need.</p>
-      <a href="../dashboard/index.php#shop" class="btn-shop">
-        Start Shopping &nbsp;<i class="fas fa-arrow-right" style="font-size:11px;"></i>
-      </a>
-    </div>`;
-}
-
-/* ── CHECKOUT ── */
-function handleCheckout() {
-  const name     = document.getElementById('fName')?.value.trim();
-  const phone    = document.getElementById('fPhone')?.value.trim();
-  const location = document.getElementById('fLocation')?.value.trim();
-
-  if (!name || !phone || !location) {
-    alert('Please fill in your Full Name, Phone Number, and Location before continuing.');
-    return;
-  }
-  /* TODO: wire M-Pesa STK push or redirect to payment gateway */
-  alert(`Thank you, ${name}!\nOur team will call ${phone} to confirm your order and delivery to ${location}.`);
-}
-</script>
+<script src="cart.js"></script>
 </body>
 </html>

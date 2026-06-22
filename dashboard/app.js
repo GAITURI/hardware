@@ -1,5 +1,5 @@
 /* 
-   MAMBO HARDWARE — dashboard/app.js
+   MAMBO Outdoors — dashboard/app.js
    Handles: product rendering, tabs, hero carousel,
             scroll-to-top, search modal, active nav.
    Cart is handled by cart-drawer.js (loaded separately).
@@ -123,13 +123,15 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 /* 
    HERO CAROUSEL
+  
 */
 const slides = [
-  { tag: 'New Stock',           title: 'Interior\nProducts',    sub: '',  btn: 'Shop Now',  img: 'images/elec1.jpg'  },
-  { tag: 'Latest Arrival',      title: 'Shower\nComponents',    sub: '',  btn: 'View More', img: 'images/bowl1.jpg'  },
-  { tag: 'Premium Products',  title: 'Electrical\nProducts',  sub: '',  btn: 'View More', img: 'images/elec2.jpg'  },
-  { tag: 'Latest Outdoor Units', title: 'POWER\nTools',          sub: '',  btn: 'Shop Now',  img: 'images/tool5.jpg'  },
+  { tag: 'New Stock',           title: 'Interior\nProducts',    sub: '',  btn: 'Shop Now',  img: '../images/hero2.png'  },
+  { tag: 'Latest Arrival',      title: 'Beautiful\nSets',    sub: '',  btn: 'View More', img: '../images/hero3.png'  },
+  { tag: 'Premium Products',  title: 'Buy\nBulk',  sub: '',  btn: 'View More', img: '../images/hero4.png'  },
+  { tag: 'Latest Outdoor Units', title: 'Hand\nMade',          sub: '',  btn: 'Shop Now',  img: '../images/hero5.png'  },
 ];
+
 
 let currentSlide = 0;
 const heroContent = document.getElementById('heroContent');
