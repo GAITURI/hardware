@@ -207,7 +207,7 @@ $count    = $cartData['count'];
             <div class="product-cell">
               <div class="product-thumb">
                 <?php if (!empty($item['image_url'])): ?>
-                  <img src="../dashboard/<?= htmlspecialchars($item['image_url']) ?>"
+                  <img src="../<?= htmlspecialchars(ltrim($item['image_url'], '/')) ?>"
                        alt="<?= htmlspecialchars($item['name']) ?>">
                 <?php else: ?>
                   <i class="fas fa-box ph"></i>

@@ -1,18 +1,31 @@
 <?php
 /**
- * Database Connection Configuration - / Mambo Hardware
+ * Database Connection Configuration - Mambo Hardware
  * Engine: PDO (PHP Data Objects)
+ * Environment: Dual-Mode (Local Development & Vercel Production)
  */
 
-// 1. Setup connection coordinates
-$host    = 'localhost';         // Change to your server hostname if live
-$db      = 'mellar_outdoors';    // Your database schema name
-$user    = 'root';              // Database username
-$pass    = '';                  // Database password
-$charset = 'utf8mb4';           // Universal character set for security and emojis
+// 1. Setup connection coordinates dynamically
+if (getenv('DB_HOST')) {
+    // Live Production Settings (Vercel + Aiven.io Cloud MySQL)
+    $host    = getenv('DB_HOST');
+    $db      = getenv('DB_NAME');
+    $user    = getenv('DB_USER');
+    $pass    = getenv('DB_PASSWORD');
+    $port    = getenv('DB_PORT');
+} else {
+    // Local Development Settings (Your local machine)
+    $host    = '127.0.0.1'; 
+    $db      = 'mellar_outdoors'; 
+    $user    = 'root';           
+    $pass    = '';               
+    $port    = '3306';           
+}
 
-// 2. Build the Data Source Name (DSN)
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+$charset = 'utf8mb4'; // Universal character set for security and emojis
+
+// 2. Build the Data Source Name (DSN) including the dynamic port
+$dsn = "mysql:host=$host;dbname=$db;port=$port;charset=$charset";
 
 // 3. Establish strict execution rules
 $options = [
@@ -32,11 +45,12 @@ try {
     
 } catch (\PDOException $e) {
     // 5. Secure Error Management
-    // For local development, this helps you debug immediately.
-    // In live production, replace this with: error_log($e->getMessage()); die("Service temporarily unavailable.");
     error_log("Database connection error: " . $e->getMessage());
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
-    header('Content-Type: application/json', true, 500);
+    
+    // Prevent sensitive system paths or cloud endpoints from spilling out to the browser
+    if (!headers_sent()) {
+        header('Content-Type: application/json', true, 500);
+    }
     echo json_encode(['error' => 'Database service temporarily unavailable.']);
     exit;
 }
