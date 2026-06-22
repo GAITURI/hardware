@@ -11,12 +11,16 @@
         "dest": "/$1/$2"
       },
       {
-        "src": "^/$",
+        "src": "/$",
         "dest": "/dashboard.php"
       },
       {
-        "src": "/(.*)",
-        "dest": "/$1"
+        "src": "/cart",
+        "dest": "/cart/cart.php"
+      },
+      {
+        "src": "/product",
+        "dest": "/cart/product.php"
       }
     ]
   }
