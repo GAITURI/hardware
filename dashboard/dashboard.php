@@ -25,7 +25,7 @@ session_start();
     }
   </script>
 
-  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="/dashboard/styles.css"/>
 </head>
 <body>
 
@@ -492,8 +492,8 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 ════════════════════════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Cart drawer must load BEFORE app.js so bindAddToCartButtons is available -->
-<script src="app.js?v=2"></script>
-<script src="cart-drawer.js"></script>
+<script src="/dashboard/app.js?v=2"></script>
+<script src="/dashboard/cart-drawer.js"></script>
 
 </body>
 </html>

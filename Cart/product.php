@@ -83,7 +83,7 @@ if (count($related_products) < 3) {
         }
     </script>
     
-    <link rel="stylesheet" href="product.css"/>
+    <link rel="stylesheet" href="/cart/product.css"/>
 </head>
 <body>
 
@@ -407,7 +407,7 @@ if (count($related_products) < 3) {
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="cart.js"></script> <script src="product.js?v=2"></script>                    
+    <script src="/cart/cart.js"></script> <script src="product.js?v=2"></script>                    
 
 </body>
 </html>

@@ -44,7 +44,7 @@ $count    = $cartData['count'];
         }
     </script>
     
-    <link rel="stylesheet" href="cart.css"/>
+    <link rel="stylesheet" href="/cart/cart.css"/>
 </head>
 <body>
 
@@ -451,6 +451,6 @@ $count    = $cartData['count'];
      SCRIPTS
 ══════════════════════════════════════════ -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="cart.js"></script>
+<script src="/cart/cart.js"></script>
 </body>
 </html>
