@@ -2,36 +2,41 @@
   "version": 2,
   "builds": [
     { "src": "index.php", "use": "vercel-php@0.7.1" },
-    { "src": "cart/product.php", "use": "vercel-php@0.7.1" },
-    { "src": "cart/cart.php", "use": "vercel-php@0.7.1" },
-    { "src": "dashboard/dashboard.php", "use": "vercel-php@0.7.1" },
-    { "src": "api/**/*.php", "use": "vercel-php@0.7.1" },
-    { "src": "**/*.css", "use": "@vercel/static" },
-    { "src": "**/*.js", "use": "@vercel/static" },
-    { "src": "**/*.{png,jpg,jpeg,svg,gif,ico}", "use": "@vercel/static" },
-    { "src": "**/*.html", "use": "@vercel/static" }
+    { "src": "db_connection.php", "use": "vercel-php@0.7.1" },
+    { "src": "api/*.php", "use": "vercel-php@0.7.1" },
+    { "src": "cart/*.php", "use": "vercel-php@0.7.1" },
+    { "src": "dashboard/*.php", "use": "vercel-php@0.7.1" },
+
+    { "src": "cart/*.css", "use": "@vercel/static" },
+    { "src": "cart/*.js", "use": "@vercel/static" },
+    { "src": "dashboard/*.css", "use": "@vercel/static" },
+    { "src": "dashboard/*.js", "use": "@vercel/static" },
+    { "src": "images/**", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "^/api/cart_add\\.php$", "dest": "/api/cart_add.php" },
+    { "src": "^/api/cart_get\\.php$", "dest": "/api/cart_get.php" },
+    { "src": "^/api/cart_remove\\.php$", "dest": "/api/cart_remove.php" },
+    { "src": "^/api/cart_update\\.php$", "dest": "/api/cart_update.php" },
+    { "src": "^/api/fetch\\.php$", "dest": "/api/fetch.php" },
+    { "src": "^/api/get_products\\.php$", "dest": "/api/get_products.php" },
+
     {
-      "src": "/cart/product.php",
-      "dest": "/cart/product.php",
-      "headers": { "Cache-Control": "no-cache, no-store, must-revalidate" }
+      "src": "^/cart/product\\.php$",
+      "headers": { "Cache-Control": "no-cache, no-store, must-revalidate" },
+      "dest": "/cart/product.php"
     },
-    {
-      "src": "/cart/cart.php",
-      "dest": "/cart/cart.php"
-    },
-    {
-      "src": "/dashboard/dashboard.php",
-      "dest": "/dashboard/dashboard.php"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
+    { "src": "^/cart/cart\\.php$", "dest": "/cart/cart.php" },
+
+    { "src": "^/dashboard/dashboard\\.php$", "dest": "/dashboard/dashboard.php" },
+
+    { "src": "^/index\\.php$", "dest": "/index.php" },
+    { "src": "^/$", "dest": "/index.php" },
+
+    { "src": "^/cart/(.+\\.css)$", "dest": "/cart/$1" },
+    { "src": "^/cart/(.+\\.js)$", "dest": "/cart/$1" },
+    { "src": "^/dashboard/(.+\\.css)$", "dest": "/dashboard/$1" },
+    { "src": "^/dashboard/(.+\\.js)$", "dest": "/dashboard/$1" },
+    { "src": "^/images/(.+)$", "dest": "/images/$1" }
   ]
 }
