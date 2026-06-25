@@ -1,29 +1,35 @@
 {
   "version": 2,
-  "builds": [
-    { "src": "index.php", "use": "vercel-php@0.7.1" },
-    { "src": "cart/product.php", "use": "vercel-php@0.7.1" },
-    { "src": "cart/cart.php", "use": "vercel-php@0.7.1" },
-    { "src": "dashboard/dashboard.php", "use": "vercel-php@0.7.1" },
-    { "src": "api/cart_add.php", "use": "vercel-php@0.7.1" },
-    { "src": "api/cart_get.php", "use": "vercel-php@0.7.1" },
-    { "src": "api/cart_remove.php", "use": "vercel-php@0.7.1" },
-    { "src": "api/cart_update.php", "use": "vercel-php@0.7.1" },
-    { "src": "api/fetch.php", "use": "vercel-php@0.7.1" },
-    { "src": "api/get_products.php", "use": "vercel-php@0.7.1" },
-    { "src": "cart/*.{css,js}", "use": "@vercel/static" },
-    { "src": "dashboard/*.{css,js}", "use": "@vercel/static" },
-    { "src": "images/**", "use": "@vercel/static" }
-  ],
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "functions": {
+    "index.php": { "runtime": "vercel-php@0.7.1" },
+    "cart/product.php": { "runtime": "vercel-php@0.7.1" },
+    "cart/cart.php": { "runtime": "vercel-php@0.7.1" },
+    "dashboard/dashboard.php": { "runtime": "vercel-php@0.7.1" },
+    "api/*.php": { "runtime": "vercel-php@0.7.1" }
+  },
   "routes": [
-    { "src": "/cart/(.*)\\.(css|js)", "dest": "/cart/$1.$2" },
-    { "src": "/dashboard/(.*)\\.(css|js)", "dest": "/dashboard/$1.$2" },
-    { "src": "/images/(.*)", "dest": "/images/$1" },
-    { "src": "/cart/product.php", "dest": "/cart/product.php" },
-    { "src": "/cart/cart.php", "dest": "/cart/cart.php" },
-    { "src": "/dashboard/dashboard.php", "dest": "/dashboard/dashboard.php" },
-    { "src": "/api/(.*).php", "dest": "/api/$1.php" },
-    { "src": "^/$", "dest": "/index.php" },
-    { "src": "/(.*)", "dest": "/$1" }
+    {
+      "src": "/cart/product.php",
+      "dest": "/cart/product.php",
+      "headers": { "Cache-Control": "no-cache, no-store, must-revalidate" }
+    },
+    {
+      "src": "/cart/cart.php",
+      "dest": "/cart/cart.php"
+    },
+    {
+      "src": "/dashboard/dashboard.php",
+      "dest": "/dashboard/dashboard.php"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
   ]
 }
