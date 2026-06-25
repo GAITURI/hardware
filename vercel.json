@@ -10,7 +10,7 @@
       "use": "@vercel/static"
     },
     {
-      "src": "**/*.js",
+      "src": "**/.*js",
       "use": "@vercel/static"
     },
     {
@@ -20,44 +20,48 @@
   ],
   "routes": [
     {
-      "src": "/images/(.*)",
+      "src": "^/images/(.*)",
       "dest": "/images/$1"
     },
     {
-      "src": "/dashboard/styles.css",
+      "src": "^/dashboard/styles.css$",
       "dest": "/dashboard/styles.css"
     },
     {
-      "src": "/dashboard/app.js",
+      "src": "^/dashboard/app.js$",
       "dest": "/dashboard/app.js"
     },
     {
-      "src": "/dashboard/cart-drawer.js",
+      "src": "^/dashboard/cart-drawer.js$",
       "dest": "/dashboard/cart-drawer.js"
     },
     {
-      "src": "/cart/cart.css",
+      "src": "^/cart/cart.css$",
       "dest": "/cart/cart.css"
     },
     {
-      "src": "/cart/product.css",
+      "src": "^/cart/product.css$",
       "dest": "/cart/product.css"
     },
     {
-      "src": "/cart/cart.js",
+      "src": "^/cart/cart.js$",
       "dest": "/cart/cart.js"
     },
     {
-      "src": "/cart/product.js",
+      "src": "^/cart/product.js$",
       "dest": "/cart/product.js"
     },
     {
-      "src": "/cart/product.php",
-      "dest": "/cart/product.php"
+      "src": "^/cart/product.php(.*)",
+      "dest": "/cart/product.php$1"
     },
     {
-      "src": "/cart/cart.php",
-      "dest": "/cart/cart.php"
+      "src": "^/cart/cart.php(.*)",
+      "dest": "/cart/cart.php$1"
+    },
+    {
+      "src": "^/$",
+      "dest": "/index.php"
     },
     {
       "src": "/(.*)",
