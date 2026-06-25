@@ -16,7 +16,13 @@
     { "src": "images/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "handle": "filesystem" },
+    { "src": "/cart/(.*)\\.(css|js)", "dest": "/cart/$1.$2" },
+    { "src": "/dashboard/(.*)\\.(css|js)", "dest": "/dashboard/$1.$2" },
+    { "src": "/images/(.*)", "dest": "/images/$1" },
+    { "src": "/cart/product.php", "dest": "/cart/product.php" },
+    { "src": "/cart/cart.php", "dest": "/cart/cart.php" },
+    { "src": "/dashboard/dashboard.php", "dest": "/dashboard/dashboard.php" },
+    { "src": "/api/(.*).php", "dest": "/api/$1.php" },
     { "src": "^/$", "dest": "/index.php" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
