@@ -6,33 +6,8 @@
       "use": "vercel-php@0.7.1"
     },
     {
-      "src": "**/*.{css,js}",
+      "src": "**/*.{css,js,jpg,png,jpeg,svg,ico}",
       "use": "@vercel/static"
-    },
-    {
-      "src": "images/**/*",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/cart/product.php",
-      "dest": "/cart/product.php"
-    },
-    {
-      "src": "/cart/cart.php",
-      "dest": "/cart/cart.php"
-    },
-    {
-      "handle": "filesystem"
-    },
-    {
-      "src": "^/$",
-      "dest": "/index.php"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
     }
   ]
 }
