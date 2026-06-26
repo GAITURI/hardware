@@ -1,6 +1,6 @@
 <?php
 /**
- * Mambo Hardware — Canonical Front Controller Router
+ * Mambo Hardware — Canonical Front Controller Router (Root Standalone)
  */
 session_start();
 
@@ -8,11 +8,11 @@ session_start();
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $route = rtrim($requestUri, '/');
 
-// Establish a rock-solid, absolute root file path reference
-define('APP_ROOT', dirname(__DIR__));
+// Since this file lives in the root directory, __DIR__ is exactly your project root
+define('APP_ROOT', __DIR__);
 
 // Automated API pass-through handler
-// This dynamically catches requests to /api/cart_add.php, /api/get_products.php, etc.
+// Dynamically catches requests to /api/cart_add.php, /api/get_products.php, etc.
 if (strpos($route, '/api/') === 0) {
     $apiFile = APP_ROOT . $route;
     if (file_exists($apiFile)) {
@@ -27,7 +27,6 @@ switch ($route) {
     // 1. Root Entry Point
     case '':
     case '/index.php':
-        // Explicitly trigger your initial redirect down to the dashboard folder
         header("Location: /dashboard/dashboard.php");
         exit;
 
@@ -36,7 +35,7 @@ switch ($route) {
         require_once APP_ROOT . '/dashboard/dashboard.php';
         break;
 
-    // 3. Product Details Page (e.g., clicked from dashboard)
+    // 3. Product Details Page
     case '/cart/product.php':
         require_once APP_ROOT . '/db_connection.php';
         require_once APP_ROOT . '/cart/product.php';
