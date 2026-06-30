@@ -85,7 +85,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
     <a class="navbar-brand me-auto"  href="dashboard.php">
       <div class="brand-wrap">
         <div class="brand-icon">
-        <img src="../images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
+        <img src="images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
         </div>
         <div>
           <div class="brand-text-top">Mambo</div>
