@@ -1,5 +1,4 @@
 /* ── CONFIG ── */
-const API = '/HARDWARE/api';
 
 /* ── SCROLL TO TOP ── */
 window.addEventListener('scroll', () => {
@@ -47,7 +46,7 @@ async function updateQty(id, newQty) {
   const res  = await fetch(`/api/cart_update.php`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
-    body:    JSON.stringify({ product_id, qty: newQty }),
+    body:    JSON.stringify({ product_id,id, qty: newQty }),
   });
   const data = await res.json();
   
@@ -92,7 +91,7 @@ async function updateQty(id, newQty) {
  * Drops line items completely from the user session and drops database links
  */
 async function removeItem(id) {
-  const res  = await fetch(`${API}/cart_remove.php`, {
+  const res  = await fetch(`/api/cart_remove.php`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ product_id:id }),
