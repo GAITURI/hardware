@@ -351,10 +351,10 @@ if (count($related_products) < 3) {
                         <span class="absolute top-3 left-3 bg-mamboRed text-white text-[9px] font-bold uppercase px-1.5 py-0.5 rounded z-10">On Sale</span>
                         
                         <div class="h-44 bg-gray-50 rounded flex items-center justify-center p-4 overflow-hidden">
-                            <img src="/<?php echo ltrim( $safeImg; '/');?>" 
+                            <img src="/<?php echo ltrim($safeImg, '/'); ?>" 
                                  alt="<?php echo $safeName; ?>" 
                                  class="h-full object-contain transition-transform duration-300 group-hover:scale-105"
-                                 onerror="this.onerror=null; this.src='../dashboard/images/logoimg.jpg';">
+                                 onerror="this.onerror=null; this.src='/images/logoimg.jpg';">
                         </div>
                         
                         <div class="space-y-1">
