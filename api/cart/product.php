@@ -1,12 +1,12 @@
 <?php
-require_once __DIR__ . '/../db_connection.php';
-require_once __DIR__ . '/../api/cart_helper.php'; // <-- Call it here!
+require_once __DIR__ . '/db_connection.php';
+require_once __DIR__ . '/cart_helper.php'; // <-- Call it here!
 // 1. Get the ID from the URL (not name)
 $product_id = isset($_GET['id']) ? trim($_GET['id']) : '';
 
 // 2. Validate that it's a numeric ID
 if (empty($product_id) || !is_numeric($product_id)) {
-    header("Location: ../dashboard/dashboard.php");
+    header("Location:/dashboard/dashboard.php");
     exit;
 }
 
@@ -17,7 +17,7 @@ $product = $stmt->fetch();
 
 // 4. If product doesn't exist, redirect
 if (!$product) {
-    header("Location: ../dashboard/dashboard.php");
+    header("Location: /dashboard/dashboard.php");
     exit;
 }
 
@@ -193,7 +193,7 @@ if (count($related_products) < 3) {
     <div class="relative bg-gray-50 border border-gray-100 rounded-lg p-6 flex justify-center items-center overflow-hidden">
         <span class="absolute top-4 left-4 bg-mamboRed text-white text-[10px] font-bold uppercase px-2 py-0.5 rounded shadow-sm z-10">On Sale</span>
         
-        <img src="../<?php echo htmlspecialchars($product['image_url']); ?>" alt="img should be here" class="w-full aspect-square object-contain max-h-[400px] transition-transform duration-300 hover:scale-105">
+        <img src="/<?php echo ltrim(htmlspecialchars($product['image_url']), '/'); ?>" alt="img should be here" class="w-full aspect-square object-contain max-h-[400px] transition-transform duration-300 hover:scale-105">
     </div>
 
     <div class="flex space-x-3">
@@ -351,7 +351,7 @@ if (count($related_products) < 3) {
                         <span class="absolute top-3 left-3 bg-mamboRed text-white text-[9px] font-bold uppercase px-1.5 py-0.5 rounded z-10">On Sale</span>
                         
                         <div class="h-44 bg-gray-50 rounded flex items-center justify-center p-4 overflow-hidden">
-                            <img src="../<?php echo $safeImg; ?>" 
+                            <img src="/<?php echo ltrim( $safeImg; '/');?>" 
                                  alt="<?php echo $safeName; ?>" 
                                  class="h-full object-contain transition-transform duration-300 group-hover:scale-105"
                                  onerror="this.onerror=null; this.src='../dashboard/images/logoimg.jpg';">
@@ -386,7 +386,7 @@ if (count($related_products) < 3) {
             <div>
                 <h5 class="text-white font-bold mb-3 uppercase tracking-wider">Quick Directives</h5>
                 <ul class="space-y-2">
-                    <li><a href="dashboard/dashboard.php" class="hover:text-white transition-colors">Return to Dashboard</a></li>
+                    <li><a href="/dashboard/dashboard.php" class="hover:text-white transition-colors">Return to Dashboard</a></li>
                     <li><a href="#shop" class="hover:text-white transition-colors">Catalog Collections</a></li>
                 </ul>
             </div>
