@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__ . '/db_connection.php';
-require_once __DIR__ . '/cart_helper.php'; // <-- Call it here!
+require_once __DIR__ . '/../db_connection.php';
+require_once __DIR__ . '/../cart_helper.php'; // <-- Call it here!
 // 1. Get the ID from the URL (not name)
 $product_id = isset($_GET['id']) ? trim($_GET['id']) : '';
 
