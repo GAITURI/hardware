@@ -3,10 +3,9 @@
  * cart/index.php — Cart + Checkout page
  * UI matches Oasis Technologies screenshot exactly.
  */
-session_start();
 
 require_once __DIR__ . '/../db_connection.php';
-require_once __DIR__ . '/../api/cart_helper.php';
+require_once __DIR__ . '/../cart_helper.php';
 
 $cartData = getCartData($pdo);
 $items     = $cartData['items'];
