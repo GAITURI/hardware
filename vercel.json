@@ -8,11 +8,15 @@
   },
   "routes": [
     {
-      "src": "/(.*\\.php)",
-      "dest": "api/index.php"
+      "src": "/(cart|dashboard|images)/(.*\\.(js|css|jpg|jpeg|png|gif|ico|svg|webp))$",
+      "dest": "/$1/$2"
     },
     {
       "handle": "filesystem"
+    },
+    {
+      "src": "/(.*\\.php)",
+      "dest": "api/index.php"
     },
     {
       "src": "/(.*)",
