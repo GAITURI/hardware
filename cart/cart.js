@@ -23,7 +23,7 @@ async function updateCartBackend(itemId, quantity, itemPrice) {
     price: parseFloat(itemPrice)
   };
 
-  const response = await fetch(`${API}/cart_add.php`, {
+  const response = await fetch(`/api/cart_add.php`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ async function updateCartBackend(itemId, quantity, itemPrice) {
  * dynamically via inline stepper components.
  */
 async function updateQty(id, newQty) {
-  const res  = await fetch(`${API}/cart_update.php`, {
+  const res  = await fetch(`/api/cart_update.php`, {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify({ product_id, qty: newQty }),

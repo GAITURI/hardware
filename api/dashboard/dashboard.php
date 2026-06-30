@@ -4,7 +4,6 @@
  * Main storefront. Session started here so the cart API
  * and the drawer all share the same session.
  */
-session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
