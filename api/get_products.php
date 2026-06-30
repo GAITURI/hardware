@@ -1,6 +1,6 @@
 <?php
 // 1. Establish the database connection
-require_once __DIR__ . '/../db_connection.php';
+require_once __DIR__ . '/db_connection.php';
 
 try {
     // 2. Query the database using the updated Mellar Outdoors schema layout

@@ -100,7 +100,7 @@ function buildCard(p) {
  */
 async function initProductDashboard() {
     try {
-        const response = await fetch('../api/get_products.php');
+        const response = await fetch('/api/get_products.php');
         if (!response.ok) throw new Error('API server pipeline returned execution status mismatch');
         const data = await response.json();
 

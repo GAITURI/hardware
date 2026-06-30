@@ -76,7 +76,7 @@ function buildCard(p) {
 */
 async function initDashboard() {
   try {
-    const response = await fetch('../api/get_products.php');
+    const response = await fetch('/api/get_products.php');
     if (!response.ok) throw new Error('Network response was not ok');
     const data = await response.json();
 

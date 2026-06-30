@@ -5,7 +5,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../db_connection.php';
+require_once __DIR__ . '/db_connection.php';
 
 $input = json_decode(file_get_contents('php://input'), true);
 

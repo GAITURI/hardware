@@ -2,7 +2,9 @@
 /**
  * Mambo Hardware — Monolithic Front Controller & API Gateway
  */
-session_start();
+if(session_status() === PHP_SESSION_NONE){
+    session_start();
+}
 
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $route = rtrim($requestUri, '/');
