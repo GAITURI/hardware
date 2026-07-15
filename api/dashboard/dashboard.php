@@ -94,36 +94,8 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         </div>
       </div>
     </a>
-
-    <!-- 2. RIGHT-SIDE GROUP (Utilities + Hamburger clustered together) -->
-    <div class="d-flex align-items-center gap-2">
-      
-      <!-- Nav Utilities (Always visible on mobile) -->
-      <div class="nav-utilities d-flex align-items-center gap-2">
-        <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
-          <i class="fas fa-search"></i>
-        </button>
-        
-        <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
-        </a>
-        
-        <!-- Desktop Admin button (Hidden on mobile) -->
-        <a href="#" class="btn-admin d-none d-lg-inline-flex">
-          <i class="fas fa-user-shield"></i> Admin
-        </a>
-      </div>
-
-      <!-- Mobile Hamburger Toggler (Updated to trigger Offcanvas drawer) -->
-      <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-    </div>
-
-    <!-- 3. COLLAPSED DRAWER (Becomes an Offcanvas on mobile, Normal Navbar on desktop) -->
-    <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="navbarNav" aria-labelledby="navbarNavLabel">
+        <!-- 3. COLLAPSED DRAWER (Becomes an Offcanvas on mobile, Normal Navbar on desktop) -->
+        <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="navbarNav" aria-labelledby="navbarNavLabel">
       
       <!-- Drawer Header (Only visible on Mobile viewports) -->
       <div class="offcanvas-header d-lg-none border-bottom px-4 py-3">
@@ -181,12 +153,35 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
               <i class="fas fa-map-marker-alt"></i> Ruai Kamulu
             </div>
           </div>
-
+  </div>
         </div>
 
       </div>
-    </div>
+    <!-- 2. RIGHT-SIDE GROUP (Utilities + Hamburger clustered together) -->
+    <div class="d-flex align-items-center gap-2">
+      
+      <!-- Nav Utilities (Always visible on mobile) -->
+      <div class="nav-utilities d-flex align-items-center gap-2">
+        <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
+        </a>
+        
+        <!-- Desktop Admin button (Hidden on mobile) -->
+        <a href="#" class="btn-admin d-none d-lg-inline-flex">
+          <i class="fas fa-user-shield"></i> Admin
+        </a>
+      </div>
 
+      <!-- Mobile Hamburger Toggler (Updated to trigger Offcanvas drawer) -->
+      <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
   </div>
 </nav>
 
