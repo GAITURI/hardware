@@ -1256,4 +1256,88 @@ body {
     border-top: 1px solid #f1f5f9;
     padding-top: 10px;
   }
+  .offcanvas-lg.offcanvas-end {
+    width: 320px !important;
+    max-width: 85vw !important;
+    border-left: none !important;
+    box-shadow: -10px 0 35px rgba(15, 23, 42, 0.12) !important;
+  }
+  
+  /* Reset focus style on the close icon */
+  .btn-close:focus {
+    box-shadow: none !important;
+  }
+
+  /* 2. Vertically Stacked Mobile Menu items */
+  .offcanvas-body .navbar-nav {
+    margin-top: 20px;
+    gap: 12px;
+  }
+  
+  .offcanvas-body .nav-link {
+    font-size: 18px !important; /* Prominent reading size for easy mobile clicks */
+    font-weight: 700 !important;
+    color: var(--charcoal) !important;
+    padding: 8px 0 !important;
+    display: inline-block;
+  }
+
+  /* Remove absolute desk-underlines inside drawer */
+  .offcanvas-body .nav-link::after {
+    display: none !important;
+  }
+
+  /* Collapsed mobile dropdown list background customization */
+  .offcanvas-body .dropdown-menu {
+    background-color: var(--light-bg) !important;
+    box-shadow: none !important;
+    padding-left: 15px !important;
+    margin-top: 5px !important;
+    border: none !important;
+  }
+  
+  .offcanvas-body .dropdown-item {
+    padding: 8px 0 !important;
+    font-size: 14px !important;
+    color: var(--slate) !important;
+  }
+
+  /* 3. Drawer Bottom Utility Details */
+  .drawer-admin-link {
+    color: var(--charcoal);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .drawer-admin-link:hover {
+    color: var(--crimson);
+  }
+  
+  .drawer-admin-link i {
+    font-size: 16px;
+    color: var(--slate);
+  }
+
+  .drawer-contact-info {
+    font-size: 12.5px;
+    color: var(--slate);
+  }
+  
+  .drawer-contact-info .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--slate);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  
+  .drawer-contact-info .contact-item i {
+    color: var(--crimson);
+    width: 14px;
+    text-align: center;
+  }
+
 }

@@ -78,13 +78,15 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 
 
 <!-- main navbar -->
+
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm main-nav sticky-top" id="mainNav">
   <div class="container-fluid px-2 px-md-4 d-flex align-items-center justify-content-between">
 
-    <a class="navbar-brand me-auto"  href="dashboard.php">
+    <!-- 1. BRAND LOGO (Anchored Far Left) -->
+    <a class="navbar-brand me-auto" href="dashboard.php">
       <div class="brand-wrap">
         <div class="brand-icon">
-        <img src="../images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
+          <img src="../images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
         </div>
         <div>
           <div class="brand-text-top">Mambo</div>
@@ -92,55 +94,101 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         </div>
       </div>
     </a>
-    <div class="d-flex align-items-center gap-2">
 
-    <div class="nav-utilities d-flex align-items-center gap-2">
-      <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
-        <i class="fas fa-search"></i>
-      </button>
-      <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
+    <!-- 2. RIGHT-SIDE GROUP (Utilities + Hamburger clustered together) -->
+    <div class="d-flex align-items-center gap-2">
+      
+      <!-- Nav Utilities (Always visible on mobile) -->
+      <div class="nav-utilities d-flex align-items-center gap-2">
+        <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
           <i class="fas fa-shopping-cart"></i>
           <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
         </a>
+        
+        <!-- Desktop Admin button (Hidden on mobile) -->
         <a href="#" class="btn-admin d-none d-lg-inline-flex">
           <i class="fas fa-user-shield"></i> Admin
-        </a> 
-    </div>
-    <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        </a>
+      </div>
+
+      <!-- Mobile Hamburger Toggler (Updated to trigger Offcanvas drawer) -->
+      <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    </div>
-    
 
-    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
-          <ul class="dropdown-menu border-0 shadow"
-              style="border-radius:10px;min-width:200px;padding:8px;">
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Outdoor Chairs</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Outdoor Sets</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Outdoor Tables</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Grass Mats</a></li>
-            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Swings</a></li>
-          </ul>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-        <li class="nav-item d-lg-none mt-3">
-          <a href="#" class="btn-admin w-100 justify-content-center py-2">
-            <i class="fas fa-user-shield"></i> Admin Panel
+    </div>
+
+    <!-- 3. COLLAPSED DRAWER (Becomes an Offcanvas on mobile, Normal Navbar on desktop) -->
+    <div class="offcanvas-lg offcanvas-end" tabindex="-1" id="navbarNav" aria-labelledby="navbarNavLabel">
+      
+      <!-- Drawer Header (Only visible on Mobile viewports) -->
+      <div class="offcanvas-header d-lg-none border-bottom px-4 py-3">
+        <div class="brand-wrap" id="navbarNavLabel">
+          <div class="brand-icon">
+            <img src="../images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
+          </div>
+          <div>
+            <div class="brand-text-top">Mambo</div>
+            <div class="brand-text-bot">Outdoors</div>
+          </div>
+        </div>
+        <!-- Close "X" Button -->
+        <button type="button" class="btn-close shadow-none" data-bs-dismiss="offcanvas" data-bs-target="#navbarNav" aria-label="Close"></button>
+      </div>
+
+      <!-- Drawer Body / Links Container -->
+      <div class="offcanvas-body d-flex flex-column p-4 p-lg-0">
+        
+        <!-- Main Navigation Links (Inline on desktop, vertical stacked on mobile) -->
+        <ul class="navbar-nav ms-lg-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
+            <ul class="dropdown-menu border-0 shadow" style="border-radius:10px; min-width:200px; padding:8px;">
+              <li><a class="dropdown-item" href="#">Outdoor Chairs</a></li>
+              <li><a class="dropdown-item" href="#">Outdoor Sets</a></li>
+              <li><a class="dropdown-item" href="#">Outdoor Tables</a></li>
+              <li><a class="dropdown-item" href="#">Grass Mats</a></li>
+              <li><a class="dropdown-item" href="#">Swings</a></li>
+            </ul>
+          </li>
+          
+          <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+
+        <!-- Bottom Drawer Elements (Only visible inside Mobile Offcanvas) -->
+        <div class="drawer-footer d-lg-none mt-auto border-top pt-4">
+          
+          <!-- Admin Panel link matching the Oasis aesthetic -->
+          <a href="#" class="drawer-admin-link d-flex align-items-center gap-2 mb-4">
+            <i class="fas fa-cog text-muted"></i>
+            <span>Admin Panel</span>
           </a>
-        </li>
-      </ul>
+          
+          <!-- Contact information details panel -->
+          <div class="drawer-contact-info d-flex flex-column gap-2">
+            <a href="tel:+254798275251" class="contact-item text-decoration-none">
+              <i class="fas fa-phone-alt"></i> +254 798275251
+            </a>
+            <div class="contact-item">
+              <i class="fas fa-map-marker-alt"></i> Ruai Kamulu
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </div>
 
-    
   </div>
 </nav>
-
 
 <!--
      TICKER BAR
