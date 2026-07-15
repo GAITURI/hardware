@@ -1241,3 +1241,19 @@ body {
   .section-title     { font-size: 30px; }
   .top-bar           { display: none; }
 }
+@media (max-width: 991px) {
+  /* Prevent default Bootstrap toggler margins from displacing alignment */
+  .navbar-toggler {
+    margin-right: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ensure the collapsible menu drops down full width under the logo row */
+  .navbar-collapse {
+    width: 100%;
+    margin-top: 10px;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 10px;
+  }
+}

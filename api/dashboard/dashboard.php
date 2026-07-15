@@ -79,7 +79,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 
 <!-- main navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm main-nav sticky-top" id="mainNav">
-  <div class="container-fluid px-2 px-md-4">
+  <div class="container-fluid px-2 px-md-4 d-flex align-items-center justify-content-between">
 
     <a class="navbar-brand me-auto"  href="dashboard.php">
       <div class="brand-wrap">
@@ -92,11 +92,25 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         </div>
       </div>
     </a>
+    <div class="d-flex align-items-center gap-2">
 
-    <button class="navbar-toggler border-0" type="button"
-            data-bs-toggle="collapse" data-bs-target="#navMenu">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+    <div class="nav-utilities d-flex align-items-center gap-2">
+      <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
+        <i class="fas fa-search"></i>
+      </button>
+      <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
+        </a>
+        <a href="#" class="btn-admin d-none d-lg-inline-flex">
+          <i class="fas fa-user-shield"></i> Admin
+        </a> 
+    </div>
+    <button class="navbar-toggler border-0 p-1" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+    
 
     <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
       <ul class="navbar-nav ms-auto">
@@ -115,23 +129,15 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         </li>
         <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
         <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        <li class="nav-item d-lg-none mt-3">
+          <a href="#" class="btn-admin w-100 justify-content-center py-2">
+            <i class="fas fa-user-shield"></i> Admin Panel
+          </a>
+        </li>
       </ul>
     </div>
 
-    <div class="nav-utilities">
-      <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
-        <i class="fas fa-search"></i>
-      </button>
-      <!-- Cart button — clicked to open drawer (handled by cart-drawer.js) -->
-      <a href="#" class="nav-icon-btn" aria-label="Cart" id="cartNavBtn">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
-      </a>
-      <a href="#" class="btn-admin">
-        <i class="fas fa-user-shield"></i> Admin
-      </a>
-    </div>
-
+    
   </div>
 </nav>
 
