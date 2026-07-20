@@ -1,15 +1,14 @@
 {
-    "mcpServers": {
-      "playwright": {
-        "command": "npx",
-        "args": [
-          "-y", 
-          "@playwright/mcp@latest",
-          "--browser",
-          "firefox",
-          "--mobile",
-          "--headless"
-        ]
-      }
+  "servers": {
+    "playwright": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@playwright/mcp@latest",
+        "--browser",
+        "firefox",
+        "--headless"
+      ]
     }
   }
+}
