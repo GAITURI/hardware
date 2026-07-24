@@ -42,6 +42,10 @@ switch ($route) {
         require_once APP_ROOT . '/db_connection.php';
         require_once APP_ROOT . '/cart/cart.php';
         break;
+    case '/about/about.php':
+        require_once APP_ROOT . 'db_connection.php';
+        require_once APP_ROOT . '/about.php';
+        break;
 
     default:
         http_response_code(404);

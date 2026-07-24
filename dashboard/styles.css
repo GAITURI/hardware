@@ -38,7 +38,7 @@ body {
   width: 100%;
 }
 @media (max-width: 991px) {
-  navbar > .container-fluid {
+  .navbar > .container-fluid {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }

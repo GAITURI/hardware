@@ -136,7 +136,7 @@ $count    = $cartData['count'];
   <div class="collapse navbar-collapse justify-content-center" id="navMenu">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="../about/about.php">About</a></li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
           <ul class="dropdown-menu border-0 shadow"
