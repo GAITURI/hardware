@@ -45,8 +45,25 @@ switch ($route) {
         require_once APP_ROOT . '/cart/cart.php';
         break;
 
-    default:
-        http_response_code(404);
-        echo "<h3>404 Error: Path asset unresolved by production gateway: " . htmlspecialchars($route) . "</h3>";
-        break;
+    case '/about':
+    case '/about.php':
+    case '/about/about.php':
+                require_once APP_ROOT . '/db_connection.php'; // Fixed missing slash
+        
+                // Check if about.php lives in /about/about.php or root /about.php
+                if (file_exists(APP_ROOT . '/about/about.php')) {
+                    require_once APP_ROOT . '/about/about.php';
+                } else if (file_exists(APP_ROOT . '/about.php')) {
+                    require_once APP_ROOT . '/about.php';
+                } else {
+                    http_response_code(404);
+                    echo "<h3>404 Error: About page template file missing.</h3>";
+                }
+                break;
+        
+            // ── FALLBACK 404 CATCHER ──
+            default:
+                http_response_code(404);
+                echo "<h3>404 Error: Router could not resolve path asset: " . htmlspecialchars($route) . "</h3>";
+                break;
 }

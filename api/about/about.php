@@ -35,8 +35,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
     </a>
 
     <div class="nav-links">
-      <a href="../dashboard/index.php">Home</a>
-      <a href="index.php" class="active">About</a>
+      <a href="../dashboard/dashboard.php">Home</a>
       <div class="dropdown">
         <a href="../dashboard/index.php#shop" class="dropdown-toggle" data-bs-toggle="dropdown">Shop</a>
         <ul class="dropdown-menu">
