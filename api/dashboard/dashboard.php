@@ -118,7 +118,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
         <!-- Main Navigation Links (Inline on desktop, vertical stacked on mobile) -->
         <ul class="navbar-nav ms-lg-auto align-items-lg-center">
           <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about/about.php">About</a></li>
           
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
