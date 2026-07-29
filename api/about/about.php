@@ -1,9 +1,7 @@
 <?php
 /**
  * about/index.php — About Us page
- * Matches Oasis Technologies About page UI from screenshots.
  */
-session_start();
 $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 ?>
 <!DOCTYPE html>
