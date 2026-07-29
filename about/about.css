@@ -6,6 +6,16 @@
   --slate:      #64748b;
   --light-bg:   #f8fafc;
   --white:      #ffffff;
+  --red:       #d32f2f;
+        --red-dark:  #b71c1c;
+        --ink:       #111827;
+        --ink-soft:  #374151;
+        --muted:     #6b7280;
+        --border:    #e5e7eb;
+        --surface:   #f9fafb;
+        --white:     #ffffff;
+        --font:      'Inter', sans-serif;
+        --cond:      'Barlow Condensed', sans-serif;
 }
 
 /* ── RESET & BASE ── */
