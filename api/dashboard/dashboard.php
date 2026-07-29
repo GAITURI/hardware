@@ -344,7 +344,7 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
           </div>
           <div style="position:absolute;left:0;top:80px;width:100px;height:100px;background:linear-gradient(135deg,#fff,#e8edf2);border-radius:50%;box-shadow:0 8px 32px rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;">
             <i class="fas fa-wrench" style="font-size:36px;color:rgba(0,0,0,0.25);"></i>
-          </div
+  </div>
         </div>
       </div>
     </div>
