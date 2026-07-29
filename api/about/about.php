@@ -22,45 +22,58 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 <!-- ══════════════════════════════════════════
      NAVBAR
 ══════════════════════════════════════════ -->
-<nav class="main-nav">
-  <div class="container nav-inner">
-    <a href="../dashboard/index.php" class="brand-wrap">
-      <div class="brand-icon"><i class="fas fa-hammer"></i></div>
-      <div>
-        <div class="brand-text-top">Mambo</div>
-        <div class="brand-text-bot">Hardware</div>
+
+<!-- main navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm main-nav sticky-top" id="mainNav">
+  <div class="container-fluid px-2 px-md-4">
+
+    <a class="navbar-brand me-auto"  href="../dashboard/dashboard.php">
+      <div class="brand-wrap">
+        <div class="brand-icon">
+        <img src="../images/logoimg.jpg" alt="Mambo Outdoor Logo" class="brand-logo-img">
+        </div>
+        <div>
+          <div class="brand-text-top">Mambo</div>
+          <div class="brand-text-bot">Outdoor</div>
+        </div>
       </div>
     </a>
-
-    <div class="nav-links">
-      <a href="../dashboard/dashboard.php">Home</a>
-      <div class="dropdown">
-        <a href="../dashboard/index.php#shop" class="dropdown-toggle" data-bs-toggle="dropdown">Shop</a>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Building Materials</a></li>
-          <li><a class="dropdown-item" href="#">Sanitary Ware</a></li>
-          <li><a class="dropdown-item" href="#">Electrical</a></li>
-          <li><a class="dropdown-item" href="#">Tools</a></li>
-          <li><a class="dropdown-item" href="#">Tiles &amp; Flooring</a></li>
-        </ul>
-      </div>
-      <a href="#">Blog</a>
-      <a href="#">Contact</a>
-    </div>
-
-    <div class="nav-utils">
-      <button class="nav-icon-btn" aria-label="Search">
+    
+    <div class="d-flex align-items-center gap-2 order-lg-last">
+    <div class="nav-utilities d-flex align-items-center gap-2">
+      <button class="nav-icon-btn" id="searchBtn" aria-label="Search">
         <i class="fas fa-search"></i>
       </button>
-      <a href="../cart/index.php" class="nav-icon-btn" aria-label="Cart">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge"><?= $cartCount ?: 0 ?></span>
-      </a>
+      <!-- Cart button — clicked to open drawer (handled by cart-drawer.js) -->
       <a href="#" class="btn-admin">
-        <i class="fas fa-user-shield"></i> Admin
+        <i class="fas fa-user-shield"></i> <span class="d-none d-md-inline">Admin</span>
       </a>
     </div>
+    <button class="navbar-toggler border-0" type="button"data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
   </div>
+  <div class="collapse navbar-collapse justify-content-center" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Shop</a>
+          <ul class="dropdown-menu border-0 shadow"
+              style="border-radius:10px;min-width:200px;padding:8px;">
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Building Materials</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Sanitary Ware</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Electrical</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tools</a></li>
+            <li><a class="dropdown-item" href="#" style="border-radius:6px;font-size:13px;font-weight:600;padding:8px 14px;">Tiles & Flooring</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+      </ul>
+    </div>
+
+</div>
 </nav>
 
 
