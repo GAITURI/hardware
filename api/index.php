@@ -1,25 +1,4 @@
-There is a critical path resolution bug in **Matrix 1** of your router code.
 
-### ## The API Path Bug
-
-In your current code:
-
-```php
-if (strpos($route, '/api/') === 0) {
-    $fileName = basename($route); // e.g., "search_products.php"
-    $targetApiScript = APP_ROOT . '/' . $fileName; // ❌ Resolves to /search_products.php at project root!
-
-```
-
-When a fetch request is made to `/api/search_products.php` or `/api/get_products.php`, `basename($route)` extracts `search_products.php`. Combining `APP_ROOT . '/' . $fileName` makes PHP look for the file directly in your root directory rather than inside the `/api/` subfolder, causing API requests to fail or fall through to 404s.
-
----
-
-### ## Corrected Front Controller Router (`index.php`)
-
-Here is the clean, fixed version. It preserves the original path mapping while ensuring API calls point accurately to `APP_ROOT . '/api/' . $fileName` (or `APP_ROOT . $route`). Clean URL aliases for your pages are also included:
-
-```php
 <?php
 // TEMPORARY DEBUGGING: Force PHP to output hidden fatal errors
 ini_set('display_errors', 1);
@@ -48,6 +27,20 @@ if (strpos($route, '/api/') === 0) {
         exit;
     }
 }
+function renderPage($path) {
+    $dbPath = APP_ROOT . '/db_connection.php';
+    if (file_exists($dbPath)) {
+        require_once $dbPath;
+    }
+
+    $fullPath = APP_ROOT . $path;
+    if (file_exists($fullPath)) {
+        require_once $fullPath;
+    } else {
+        http_response_code(404);
+        echo "<h3>404 Error: Could not locate page asset at: " . htmlspecialchars($path) . "</h3>";
+    }
+}
 // ── MATRIX 2: PRESENTATIONAL LAYOUT ROUTER ──
 switch ($route) {
     // ── DASHBOARD / HOME ──
@@ -55,37 +48,25 @@ switch ($route) {
     case '/index.php':
     case '/dashboard':
     case '/dashboard/dashboard.php':
-        require_once APP_ROOT . '/db_connection.php';
-        require_once APP_ROOT . '/dashboard/dashboard.php';
+        renderPage('/dashboard/dashboard.php');
         break;
 
     // ── CART & PRODUCTS ──
     case '/cart/product':
     case '/cart/product.php':
-        require_once APP_ROOT . '/db_connection.php';
-        require_once APP_ROOT . '/cart/product.php';
+        renderPage('/cart/product.php');
         break;
 
     case '/cart':
     case '/cart/cart.php':
-        require_once APP_ROOT . '/db_connection.php';
-        require_once APP_ROOT . '/cart/cart.php';
+        renderPage('/cart/cart.php');
         break;
 
     // ── ABOUT PAGE ──
     case '/about':
     case '/about.php':
     case '/about/about.php':
-        require_once APP_ROOT . '/db_connection.php';
-
-        if (file_exists(APP_ROOT . '/about/about.php')) {
-            require_once APP_ROOT . '/about/about.php';
-        } else if (file_exists(APP_ROOT . '/about.php')) {
-            require_once APP_ROOT . '/about.php';
-        } else {
-            http_response_code(404);
-            echo "<h3>404 Error: About page template file missing.</h3>";
-        }
+        renderPage ('/about/about.php');
         break;
 
     // ── FALLBACK 404 CATCHER ──
