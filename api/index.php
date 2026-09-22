@@ -21,6 +21,10 @@ Here is the clean, fixed version. It preserves the original path mapping while e
 
 ```php
 <?php
+// TEMPORARY DEBUGGING: Force PHP to output hidden fatal errors
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 /**
  * Mambo Hardware — Monolithic Front Controller & API Gateway
  */
@@ -37,10 +41,10 @@ define('APP_ROOT', __DIR__);
 
 // ── MATRIX 1: API UTILITY ROUTER ──
 if (strpos($route, '/api/') === 0) {
-    $apiFile = APP_ROOT . $route;
-    if (file_exists($apiFile)) {
+    $targetApiScript = APP_ROOT . $route;
+    if (file_exists($targetApiScript) && basename($route) !=='index.php'){
         require_once APP_ROOT . '/db_connection.php';
-        require_once $apiFile;
+        require_once $targetApiScript;
         exit;
     }
 }
@@ -49,9 +53,6 @@ switch ($route) {
     // ── DASHBOARD / HOME ──
     case '':
     case '/index.php':
-        header("Location: /dashboard/dashboard.php");
-        exit;
-
     case '/dashboard':
     case '/dashboard/dashboard.php':
         require_once APP_ROOT . '/db_connection.php';
