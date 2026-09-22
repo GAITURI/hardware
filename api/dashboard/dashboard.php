@@ -544,5 +544,6 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
 <script src="/dashboard/app.js?v=2"></script>
 <script src="/dashboard/cart-drawer.js"></script>
 
+
 </body>
 </html>
