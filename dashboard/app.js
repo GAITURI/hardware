@@ -231,7 +231,7 @@ async function performSearch(query) {
     </div>`;
 
   try {
-    const response = await fetch(`/api/search_products.php?q=${encodeURIComponent(query)}`);
+    const response = await fetch(`/api/search/search_products.php?q=${encodeURIComponent(query)}`);
     if (!response.ok) throw new Error('Network error');
 
     const products = await response.json();

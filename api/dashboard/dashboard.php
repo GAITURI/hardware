@@ -526,13 +526,12 @@ $cartCount = array_sum(array_column($_SESSION['cart'] ?? [], 'qty'));
            placeholder="Search for outdoor chairs, swings, tables"
            autocomplete="off"/>
     <div class="mt-3 d-flex gap-2 flex-wrap">
-      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Chairs</span>
-      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Tables</span>
-      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Sets</span>
-      <span style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Swings</span>
+      <span class="search-tag" style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Chairs</span>
+      <span class="search-tag" style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Tables</span>
+      <span class="search-tag" style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Sets</span>
+      <span class="search-tag" style="font-size:12px;font-weight:600;padding:6px 12px;background:#f1f5f9;border-radius:20px;cursor:pointer;color:var(--slate);">Swings</span>
     </div>
     <div class="search-results-list mt-3" id="searchResults" style="max-height:300px; overflow-y:auto;"></div>
-  </div>
   </div>
 </div>
 
