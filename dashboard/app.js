@@ -204,7 +204,79 @@ searchModal.addEventListener('click', e => {
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') searchModal.classList.remove('open');
 });
+/* ════════════════════════════════════════
+   AIVEN MYSQL LIVE SEARCH CONTROLLER
+════════════════════════════════════════ */
+const searchInput = document.getElementById('searchInput');
+const searchResults = document.getElementById('searchResults');
+let debounceTimer;
 
+// Debounce helper to prevent excessive Aiven database calls
+function debounce(func, delay = 300) {
+  return (...args) => {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => func.apply(this, args), delay);
+  };
+}
+
+async function performSearch(query) {
+  if (!query.trim()) {
+    searchResults.innerHTML = '';
+    return;
+  }
+
+  searchResults.innerHTML = `
+    <div class="text-center text-muted py-3">
+      <i class="fas fa-spinner fa-spin me-2"></i> Searching...
+    </div>`;
+
+  try {
+    const response = await fetch(`/api/search_products.php?q=${encodeURIComponent(query)}`);
+    if (!response.ok) throw new Error('Network error');
+
+    const products = await response.json();
+
+    if (products.length === 0) {
+      searchResults.innerHTML = '<div class="text-muted text-center py-3">No matching products found.</div>';
+      return;
+    }
+
+    // Render search result items
+    searchResults.innerHTML = products.map(p => `
+      <a href="/cart/product.php?id=${p.id}" class="d-flex align-items-center gap-3 p-2 text-decoration-none border-bottom search-result-item">
+        <img src="${p.image_url || '/images/default.jpg'}" alt="${p.name}" style="width:48px; height:48px; object-fit:cover; border-radius:8px;">
+        <div class="flex-grow-1">
+          <div class="fw-bold text-dark" style="font-size:14px;">${p.name}</div>
+          <div class="text-danger font-weight-bold" style="font-size:13px;">KSh ${Number(p.price).toLocaleString('en-KE')}</div>
+        </div>
+        <i class="fas fa-chevron-right text-muted fa-xs"></i>
+      </a>
+    `).join('');
+
+  } catch (err) {
+    console.error('Search request failed:', err);
+    searchResults.innerHTML = '<div class="text-danger text-center py-2">Failed to load search results.</div>';
+  }
+}
+
+// Live typing search event listener
+if (searchInput) {
+  searchInput.addEventListener('input', debounce((e) => {
+    performSearch(e.target.value);
+  }));
+}
+
+// Quick click handlers for suggestion tags
+document.querySelectorAll('.search-tag').forEach(tag => {
+  tag.style.cursor = 'pointer';
+  tag.addEventListener('click', () => {
+    const term = tag.textContent.trim();
+    if (searchInput) {
+      searchInput.value = term;
+      performSearch(term);
+    }
+  });
+});
 /* ════════════════════════════════════════
    ACTIVE NAV LINK ON SCROLL
 ════════════════════════════════════════ */
