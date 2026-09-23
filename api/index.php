@@ -20,7 +20,8 @@ define('APP_ROOT', __DIR__);
 
 // ── MATRIX 1: API UTILITY ROUTER ──
 if (strpos($route, '/api/') === 0) {
-    $targetApiScript = APP_ROOT . $route;
+    $relativeScriptPath = str_replace('/api', '', $route);
+    $targetApiScript = APP_ROOT . $relativeScriptPath;
     if (file_exists($targetApiScript) && basename($route) !=='index.php'){
         require_once APP_ROOT . '/db_connection.php';
         require_once $targetApiScript;

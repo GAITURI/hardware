@@ -30,13 +30,13 @@ $dsn = "mysql:host=$host;dbname=$db;port=$port;charset=$charset";
 // 3. Establish strict execution rules
 $options = [
     // Throws PDOExceptions on errors instead of failing silently
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, 
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     
     // Forces database arrays to return columns indexed by name natively
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,       
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     
     // Disables emulated prepared statements to force true compiled SQL queries (Crucial SQLi protection)
-    PDO::ATTR_EMULATE_PREPARES   => false,                  
+    PDO::ATTR_EMULATE_PREPARES   => false, 
 ];
 
 try {
