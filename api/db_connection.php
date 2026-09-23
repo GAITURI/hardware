@@ -49,13 +49,15 @@ try {
     // 5. Secure Error Management
     error_log("Database connection error: " . $e->getMessage());
     
-    // Prevent sensitive system paths or cloud endpoints from spilling out to the browser
-    if(strpos($_SERVER['REQUEST_URI'] ?? '', '/api/')===0 && basename($_SERVER['REQUEST_URI']?? '')! =='index.php'){
+  // Prevent sensitive system paths or cloud endpoints from spilling out to the browser
+$currentPath = parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH);
+
+if (strpos($currentPath, '/api/') === 0 && basename($currentPath) !== 'index.php') {
     if (!headers_sent()) {
         http_response_code(500);
         header('Content-Type: application/json');
     }
     echo json_encode(['error' => 'Database service temporarily unavailable.']);
     exit;
-    }
+}
 }

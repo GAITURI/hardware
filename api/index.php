@@ -7,9 +7,6 @@ error_reporting(E_ALL);
 /**
  * Mambo Hardware — Monolithic Front Controller & API Gateway
  */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
 // Intercept request path and strip query strings/trailing slashes
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
