@@ -11,7 +11,7 @@ if (getenv('DB_HOST')) {
     $host    = getenv('DB_HOST');
     $db      = getenv('DB_NAME');
     $user    = getenv('DB_USER');
-    $pass    = getenv('DB_PASSWORD');
+    $pass    = getenv('DB_PASSWORD') !== false ? getenv('DB_PASSWORD') : getenv('DB_PASS');
     $port    = getenv('DB_PORT');
 } else {
     // Local Development Settings (Your local machine)
@@ -37,8 +37,10 @@ $options = [
     
     // Disables emulated prepared statements to force true compiled SQL queries (Crucial SQLi protection)
     PDO::ATTR_EMULATE_PREPARES   => false, 
+    PDO::ATTR_TIMEOUT =>3,
+    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
 ];
-
+$pdo= null;
 try {
     // 4. Initialize the global PDO instance
     $pdo = new PDO($dsn, $user, $pass, $options);
@@ -48,9 +50,12 @@ try {
     error_log("Database connection error: " . $e->getMessage());
     
     // Prevent sensitive system paths or cloud endpoints from spilling out to the browser
+    if(strpos($_SERVER['REQUEST_URI'] ?? '', '/api/')===0 && basename($_SERVER['REQUEST_URI']?? '')! =='index.php'){
     if (!headers_sent()) {
-        header('Content-Type: application/json', true, 500);
+        http_response_code(500);
+        header('Content-Type: application/json');
     }
     echo json_encode(['error' => 'Database service temporarily unavailable.']);
     exit;
+    }
 }

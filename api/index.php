@@ -15,6 +15,9 @@ if (session_status() === PHP_SESSION_NONE) {
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $route = rtrim($requestUri, '/');
 
+
+
+define('PROJECT_ROOT', dirname(__DIR__));
 // Project Root Directory
 define('APP_ROOT', __DIR__);
 
@@ -77,4 +80,3 @@ switch ($route) {
         break;
 }
 
-```
